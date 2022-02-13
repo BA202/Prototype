@@ -5,15 +5,19 @@ services:
       container_name: db
       environment:
         MYSQL_ROOT_PASSWORD: root
-        MYSQL_DATABASE: test_db
-        
+        MYSQL_DATABASE: HotelReviews
+      volumes:
+      - "./src/SQL/HotelReviewCreate.sql:/docker-entrypoint-initdb.d/1.sql"
+      - "./src/SQL/InsertData.sql:/docker-entrypoint-initdb.d/2.sql"
+      - my-datavolume:/var/lib/mysql
       ports:
         - 3307:3306
 
-    backend:
-      container_name: backend
+
+    classifier:
+      container_name: classifier
       build:
-        context: ./src/Python
+        context: ./src/Python/classifier
       depends_on: 
         - db
 
@@ -21,3 +25,16 @@ services:
         - 5001:5001
       restart: on-failure
 
+    preprocessor:
+      container_name: preprocessor
+      build:
+        context: ./src/Python/preprocessor
+      depends_on: 
+        - db
+
+      ports:
+        - 5002:5002
+      restart: on-failure
+
+volumes:
+  my-datavolume:
