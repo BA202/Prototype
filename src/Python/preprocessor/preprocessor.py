@@ -7,7 +7,7 @@ app = Flask(__name__)
 def index():
     cnx = mysql.connector.connect(user='root', password='root',
                               host='db',
-                              database='test_db')
+                              database='HotelReviews')
     cursor = cnx.cursor()
 
     query = ("SELECT NOW()")
