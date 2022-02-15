@@ -36,5 +36,11 @@ services:
         - 5002:5002
       restart: on-failure
 
+    frontend:
+      container_name: frontend
+      build: ./src/React
+      ports:
+        - 3000:3000
+
 volumes:
   my-datavolume:
