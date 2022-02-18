@@ -1,17 +1,17 @@
 version: "3.6"
 services:
     db:
-      image: mysql
+      image: mysql:5
       container_name: db
       environment:
         MYSQL_ROOT_PASSWORD: root
         MYSQL_DATABASE: HotelReviews
       volumes:
       - "./src/SQL/HotelReviewCreate.sql:/docker-entrypoint-initdb.d/1.sql"
-      - "./src/SQL/InsertData.sql:/docker-entrypoint-initdb.d/2.sql"
-      - my-datavolume:/var/lib/mysql
+#      - my-datavolume:/var/lib/mysql
+
       ports:
-        - 3307:3306
+        - 3306:3306
 
 
     classifier:
@@ -34,6 +34,17 @@ services:
 
       ports:
         - 5002:5002
+      restart: on-failure
+
+    backend:
+      container_name: backend
+      build:
+        context: ./src/Python/backend
+      depends_on: 
+        - db
+
+      ports:
+        - 5003:5003
       restart: on-failure
 
     frontend:

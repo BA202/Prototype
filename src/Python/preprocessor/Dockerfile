@@ -5,7 +5,8 @@ WORKDIR  /app
 RUN pip install Flask
 RUN pip install mysql-connector-python
 
-COPY . .
+COPY . ./
+ADD /Users/tobiasrothlin/Documents/BachelorArbeit/Prototype/src/Python/backend/DBInteraction.py ./
 
 EXPOSE 5002
 

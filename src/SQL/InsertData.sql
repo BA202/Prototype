@@ -1,13 +1,19 @@
-DELETE FROM `ClassificationResult` ;
-DELETE FROM `ReviewSentences` ;
-DELETE FROM `RawReviews` ;
+SET GLOBAL local_infile = true;
 
-INSERT INTO `RawReviews` 
-	(`review`, 						 	`setType`, 	`source`, 	`language`) VALUES 
-	('Ich bin in den Pool gefallen.',  	'Training', 'Online', 	'Deutsch'),
-    ('Ich bin in den Pool gefallen.', 	'Training', 'Online', 	'Deutsch');
+LOAD DATA LOCAL INFILE '/Users/tobiasrothlin/Documents/BachelorArbeit/Prototype/CSV_Data/RawReviews.csv'
+INTO TABLE RawReviews
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+(review,setType,source,language);
 
+LOAD DATA LOCAL INFILE '/Users/tobiasrothlin/Documents/BachelorArbeit/Prototype/CSV_Data/ReviewSentences.csv'
+INTO TABLE ReviewSentences
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+(sentence,originalReviewId);
 
-INSERT INTO `HotelReviews`.`ReviewSentences` (`sentence`, `originalReviewId`) VALUES ('Der Pool war gut.', '1');
-
-INSERT INTO `HotelReviews`.`ClassificationResult` (`score`, `socreConfidence`, `classification`, `classificationConfidence`, `contentType`, `contentTypeConfidence`,`reviewSentenceId`) VALUES ('0.6', '1', 'Pool', '1', 'Review', '1',1);
+LOAD DATA LOCAL INFILE '/Users/tobiasrothlin/Documents/BachelorArbeit/Prototype/CSV_Data/ClassificationResult.csv'
+INTO TABLE ClassificationResult
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+(score,socreConfidence,classification,classificationConfidence,contentType,contentTypeConfidence,reviewSentenceId);

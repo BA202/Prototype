@@ -1,22 +1,34 @@
-from flask import Flask
-import mysql.connector
+import flask
+from flask import request
+import DBInteraction
 
-app = Flask(__name__)
 
-@app.route('/')
-def index():
-    cnx = mysql.connector.connect(user='root', password='root',
-                              host='db',
-                              database='test_db')
-    cursor = cnx.cursor()
+app = flask.Flask(__name__)
 
-    query = ("SELECT NOW()")
-    cursor.execute(query)
-    res = str(cursor.fetchall()[0][0])
-    print(res)
-    cnx.close()
-    
-    return res
+@app.route('/getRawReviews')
+def getRawReviews():
+    ret = flask.Response(DBInteraction.getRawReviews())
+    ret.headers['Content-Type'] = 'application/json'
+    return ret
+
+@app.route('/getReviewsAsSentances')
+def getReviewsAsSentances():
+    ret = flask.Response(DBInteraction.getReviewsAsSentances())
+    ret.headers['Content-Type'] = 'application/json'
+    return ret
+
+@app.route('/getAllClassifiedResults')
+def getAllClassifiedResults():
+    ret = flask.Response(DBInteraction.getAllClassifiedResults())
+    ret.headers['Content-Type'] = 'application/json'
+    return ret
+
+@app.route('/addNewReview',methods = ['POST'])
+def addNewReview():
+    data = request.get_json(silent=False)
+    print(data)
+    print(DBInteraction.addNewReview(data['review'],data['setType'],data['source'],data['language']))
+    return getRawReviews() 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5001)
+    app.run(host='0.0.0.0', port=5003)

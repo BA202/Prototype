@@ -7,6 +7,7 @@ RUN pip install mysql-connector-python
 
 COPY . .
 
-EXPOSE 5001
+
+EXPOSE 5003
 
 CMD ["python","-u", "./backend.py"]

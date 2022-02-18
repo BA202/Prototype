@@ -1,22 +1,25 @@
-from flask import Flask
-import mysql.connector
+from socket import IP_DEFAULT_MULTICAST_LOOP
+import threading
+import flask 
+import DBInteraction
+import threading
 
-app = Flask(__name__)
+
+app = flask.Flask(__name__)
+
+
+def preprocerssor(str):
+    return str.lower()
+
+def preprocess_thread(id):
+    print(preprocerssor(DBInteraction.getReviewById(id)))
 
 @app.route('/')
 def index():
-    cnx = mysql.connector.connect(user='root', password='root',
-                              host='db',
-                              database='HotelReviews')
-    cursor = cnx.cursor()
-
-    query = ("SELECT NOW()")
-    cursor.execute(query)
-    res = str(cursor.fetchall()[0][0])
-    print(res)
-    cnx.close()
-    
-    return res
+    id = flask.request.args.get("id")
+    asyncPreprocess = threading.Thread(target=preprocess_thread, args=(id,))
+    asyncPreprocess.start()
+    return "Preprocessing"
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5002)
