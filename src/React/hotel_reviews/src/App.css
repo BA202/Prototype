@@ -1,5 +1,28 @@
-.App {
-  text-align: center;
+.Titel
+{
+  margin-top: 20px;
+
+  margin-left: 40px;
+  color: #223D73;
+  font-size: 50px;
+}
+
+body
+{
+  background-color: #F2F2F2;
+}
+
+.centered
+{
   display: grid;
   place-items: center;
+}
+
+.HorizontalSeparator
+{
+  height: 1px;
+  width: 50%;
+  background-color: #223D73;
+  margin-top: 40px;
+  margin-bottom: 30px;
 }

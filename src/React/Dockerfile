@@ -6,6 +6,8 @@ COPY /hotel_reviews ./
 
 
 RUN npm install
+RUN npm install --save react-circular-progressbar
+
 #RUN npm install dotenv --save
 RUN npm run build
 

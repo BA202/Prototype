@@ -1,0 +1,36 @@
+.HorizontalSeparator_Invisible
+{
+    height: 30px;
+}
+
+.Btn_Refresh
+{
+    grid-area: 1 / 2 / 2 / 3; 
+    height: 40px;
+    width: 200px;
+    background-color: #223D73;
+    color: #E6E6E6;
+    border-color: transparent;
+    border-radius: 2px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    font-size: 20px;
+    
+}
+
+.Btn_Refresh:hover
+{
+    box-shadow: 0px 15px 20px rgba(114, 114, 114, 0.4);
+    transform: translateY(-2px);
+}
+
+.Lbl_Refresh
+{
+    color: #4D4D4D;
+    padding-right: 10px;
+}
+
+.ClassifiedReview
+{
+    text-align: center;
+}

@@ -25,6 +25,12 @@ def getAllClassifiedResults():
     ret.headers['Content-Type'] = 'application/json'
     return ret
 
+@app.route('/getAllData')
+def getAllData():
+    ret = flask.Response(DBInteraction.getAllData())
+    ret.headers['Content-Type'] = 'application/json'
+    return ret
+
 @app.route('/addNewReview',methods = ['POST'])
 def addNewReview():
     data = request.get_json(silent=False)

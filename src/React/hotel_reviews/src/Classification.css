@@ -1,0 +1,78 @@
+
+.Classification
+{
+    text-align: left;
+    font-weight: normal;
+    padding-top: 20px;
+    display: grid; 
+    grid-template-columns: 100px, 60px; 
+    grid-template-rows: repeat(3, 60px); 
+    grid-column-gap: 20px;
+    grid-row-gap: 10px; 
+    padding: 20px;
+    background-color: #E6E6E6;
+    border-radius: 20px;
+    box-shadow: 0px 15px 20px rgba(114, 114, 114, 0.4);
+    margin-right: 20px;
+}
+
+.Classification_Score { 
+    grid-area: 1 / 1 / 2 / 2; 
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    width: 100px;
+} 
+
+.Classification_ScoreConfidence { 
+    grid-area: 1 / 2 / 2 / 3; 
+    width: 60px;
+} 
+
+.Classification_Classification { 
+    grid-area: 2 / 1 / 3 / 2; 
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    width: 100px;
+} 
+
+.Classification_ClassificationConfidence {
+     grid-area: 2 / 2 / 3 / 3;
+     width: 60px; 
+}
+
+.Classification_ContentType { 
+    grid-area: 3 / 1 / 4 / 2; 
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    width: 100px;
+} 
+
+.Classification_ContentTypeConfidence { 
+    grid-area: 3 / 2 / 4 / 3; 
+    width: 60px;
+} 
+
+
+.CircularProgressbar-path {
+    stroke: #223D73 !important;
+}
+
+
+.CircularProgressbar-text {
+    fill: #223D73 !important;
+}
+
+.Classification_Description
+{
+    color: #4D4D4D;
+}
+
+.Result{
+    font-size: 25px;
+}
