@@ -1,9 +1,11 @@
 import flask
 from flask import request
 import DBInteraction
-
+import requests
 
 app = flask.Flask(__name__)
+
+url = "http://preprocessor:5002/?id="
 
 @app.route('/getRawReviews')
 def getRawReviews():
@@ -27,7 +29,9 @@ def getAllClassifiedResults():
 def addNewReview():
     data = request.get_json(silent=False)
     print(data)
-    print(DBInteraction.addNewReview(data['review'],data['setType'],data['source'],data['language']))
+    id =  DBInteraction.addNewReview(data['review'],data['setType'],data['source'],data['language'])[0][0]
+    response = requests.request("GET", url+str(id))
+    print(response.text)
     return getRawReviews() 
 
 if __name__ == '__main__':
