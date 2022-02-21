@@ -8,15 +8,27 @@ class Classification extends React.Component {
 
     constructor(props) {
         super(props);
-
-        this.state ={
-            score : this.props.classificationData[0],
-            scoreConfidence : this.props.classificationData[1],
-            classification : this.props.classificationData[2],
-            classificationConfidence : this.props.classificationData[3],
-            contentType : this.props.classificationData[4],
-            contentTypeConfidence : this.props.classificationData[5],
+        if (typeof this.props.data !== 'undefined') {
+          this.state ={
+            score : this.props.data.Score,
+            scoreConfidence : this.props.data.ScoreConfidence,
+            classification : this.props.data.Classification,
+            classificationConfidence : this.props.data.ClassificationConfidence,
+            contentType : this.props.data.ContentType,
+            contentTypeConfidence : this.props.data.ContentTypeConfidence
         }
+        }
+        else{
+          this.state ={
+            score : 0,
+            scoreConfidence : 0,
+            classification : "",
+            classificationConfidence : 0,
+            contentType : "",
+            contentTypeConfidence : 0
+        }
+        }
+        
       }
 
     render() {

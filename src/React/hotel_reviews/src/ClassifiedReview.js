@@ -6,19 +6,30 @@ class ClassifiedReview extends React.Component {
 
     constructor(props) {
         super(props);
-
-        this.state ={
-          review : this.props.data[0],
-          sentence : this.props.data[1], 
-          result : <Sentence></Sentence>
+        if (typeof this.props.data !== 'undefined') {
+          this.state ={
+            review : this.props.data.RawReview,
+            sentence : this.props.data.Sentences, 
+            result : <Sentence></Sentence>
+          }
         }
+        else
+        {
+          this.state ={
+            review : "",
+            sentence : {}, 
+            result : <Sentence></Sentence>
+          }
+        }
+
+        
       }
 
     render() {
       let table = []
-      for (let res in this.state.sentence)
+      for (let res in Object.keys(this.state.sentence))
       {
-        table.push(<tr><Sentence res = {this.state.sentence[res]}></Sentence></tr>)
+        table.push(<tr><Sentence data = {this.state.sentence[Object.keys(this.state.sentence)[res]]}></Sentence></tr>)
       }
       let sentenceView = <table>{table}</table>
 

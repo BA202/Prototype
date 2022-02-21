@@ -39,3 +39,10 @@
     padding-top: 10px;
     width: 50px;
 }
+
+.ViewSeperator
+{
+   background-color: #223D73;
+   height: 1px; 
+   margin-bottom: 50px;
+}

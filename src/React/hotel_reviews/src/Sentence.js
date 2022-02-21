@@ -6,19 +6,30 @@ class Sentence extends React.Component {
 
     constructor(props) {
         super(props);
-
-        this.state ={
-          sentence : this.props.res[0],
-          kat : this.props.res[1], 
-          result : <Classification></Classification>
+        
+        if (typeof this.props.data !== 'undefined') {
+          this.state ={
+            sentence : this.props.data.Sentence,
+            kat : this.props.data.Classifications, 
+            result : <Classification></Classification>
+          }
         }
+        else{
+          this.state ={
+            sentence : "",
+            kat : {}, 
+            result : <Classification></Classification>
+          }
+        }
+
+        
       }
 
     render() {
       let table = []
-      for (let res in this.state.kat)
+      for (let res in Object.keys(this.state.kat))
       {
-        table.push(<th><Classification classificationData = {this.state.kat[res]}></Classification></th>)
+        table.push(<th><Classification data = {this.state.kat[Object.keys(this.state.kat)[res]]}></Classification></th>)
       }
       let showUsers = <table>{table}</table>
 

@@ -1,6 +1,6 @@
 [
     [
-      "Der Pool war sehr schön. Das znacht war fein.",
+      "Der Pool war sehr schön. Das znacht und zmorgen war fein.",
       [
         [
           "Der Pool was sehr schön.",
@@ -16,7 +16,7 @@
           ]
         ],
         [
-          " Das znacht war fein.",
+          " Das znacht und zmorgen war fein.",
           [
             [
               0.8,
@@ -31,7 +31,7 @@
               0.23,
               "Essen",
               0.45,
-              "Story",
+              "Review",
               0.01
             ]
           ]

@@ -57,45 +57,56 @@ def addNewsentence(sentence,originalReviewId):
 def addNewClassification(classificationResult, reviewSentenceId):
     return sqlSet(f"INSERT INTO `HotelReviews`. `ClassificationResult`(`score`, `socreConfidence`, `classification`, `classificationConfidence`, `contentType`, `contentTypeConfidence`, `reviewSentenceId`) VALUES('{classificationResult[0]}', '{classificationResult[1]}', '{classificationResult[2]}', '{classificationResult[3]}', '{classificationResult[4]}', '{classificationResult[5]}', '{reviewSentenceId}');")
 
+
+def createClassifiactionTemplate(score,scoreConfidence,classification,classificationConfidence,contentType,ContentTypeConfidence):
+    return {
+                              "Score": score,
+                              "ScoreConfidence": scoreConfidence,
+                              "Classification": classification,
+                              "ClassificationConfidence": classificationConfidence,
+                              "ContentType": contentType,
+                              "ContentTypeConfidence": ContentTypeConfidence
+                          }
+
+def createSentenceTemplate(sentence, modDate):
+    return {
+                      "Sentence": sentence,
+                      "ModDate": str(modDate),
+                      "Classifications" : {}
+                  }
+
+def createReviewTemplate(rawReview,creationTime,setType,source,language):
+    return {
+        "RawReview": rawReview,
+        "CreationTime": str(creationTime),
+        "SetType": setType,
+        "Source": source,
+        "Language": language,
+        "Sentences": {}
+    }
+
+
 def getAllData():
-    return """[
-    [
-      "Der Pool war sehr schön. Das znacht war fein.",
-      [
-        [
-          "Der Pool was sehr schön.",
-          [
-            [
-              0.8,
-              0.3,
-              "Pool",
-              0.6,
-              "Review",
-              0.5
-            ]
-          ]
-        ],
-        [
-          " Das znacht war fein.",
-          [
-            [
-              0.8,
-              0.99,
-              "Essen",
-              0.54,
-              "Review",
-              0.34
-            ],
-            [
-              0.8,
-              0.23,
-              "Essen",
-              0.45,
-              "Story",
-              0.01
-            ]
-          ]
-        ]
-      ]
-    ]
-  ]"""
+  res = sqlQuery(f"SELECT * FROM UnloadedData;")
+  dataFrame = {
+    "data":{
+        "Reviews":{
+
+        }
+    },
+    "meta":{
+
+    }
+  }
+  for line in res:
+    if not line[0] in dataFrame["data"]["Reviews"].keys():
+        dataFrame["data"]["Reviews"][line[0]] = createReviewTemplate(line[1],line[2],line[3],line[4],line[5])
+        dataFrame["data"]["Reviews"][line[0]]["Sentences"][line[6]] = createSentenceTemplate(line[7],line[8])
+        dataFrame["data"]["Reviews"][line[0]]["Sentences"][line[6]]["Classifications"][line[9]] = createClassifiactionTemplate(line[10],line[11], line[12],line[13], line[14],line[15])
+    else:
+        if not line[6] in dataFrame["data"]["Reviews"][line[0]]["Sentences"].keys():
+            dataFrame["data"]["Reviews"][line[0]]["Sentences"][line[6]] = createSentenceTemplate(line[7], line[8])
+            dataFrame["data"]["Reviews"][line[0]]["Sentences"][line[6]]["Classifications"][line[9]] = createClassifiactionTemplate(line[10], line[11], line[12], line[13], line[14], line[15])
+        else:
+            dataFrame["data"]["Reviews"][line[0]]["Sentences"][line[6]]["Classifications"][line[9]] = createClassifiactionTemplate(line[10], line[11], line[12], line[13], line[14], line[15])
+  return json.dumps(dataFrame)

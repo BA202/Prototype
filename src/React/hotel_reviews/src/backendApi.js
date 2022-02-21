@@ -25,8 +25,9 @@ class backendApi extends basicRestRequests
     {
       let url = this.#baseUrl + "getAllData";
       let result = await this.GetRequest(url);
-      console.log(result);
+      
       let data = JSON.parse(result);
+      //console.log(data);
       return data;
     }
 
