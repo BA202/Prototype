@@ -3,7 +3,7 @@ import json
 
 
 def sqlQuery(query_str):
-    cnx = mysql.connector.connect(user='admin', password='admin',
+    cnx = mysql.connector.connect(user='root', password='root',
                           host='db',
                           database='HotelReviews')
     cursor = cnx.cursor()
@@ -15,7 +15,7 @@ def sqlQuery(query_str):
     return res
 
 def sqlSet(query_str):
-    cnx = mysql.connector.connect(user='admin', password='admin',
+    cnx = mysql.connector.connect(user='root', password='root',
                           host='db',
                           database='HotelReviews')
     cursor = cnx.cursor()

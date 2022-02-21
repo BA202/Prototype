@@ -4,8 +4,7 @@ services:
       image: mysql:5
       container_name: db
       environment:
-        MYSQL_ROOT_PASSWORD: admin
-        MYSQL_USER: admin
+        MYSQL_ROOT_PASSWORD: root
         MYSQL_DATABASE: HotelReviews
       volumes:
       - "./src/SQL/HotelReviewCreate.sql:/docker-entrypoint-initdb.d/1.sql"
