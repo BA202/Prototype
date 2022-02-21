@@ -9,7 +9,6 @@ services:
       volumes:
       - "./src/SQL/HotelReviewCreate.sql:/docker-entrypoint-initdb.d/1.sql"
 #      - my-datavolume:/var/lib/mysql
-
       ports:
         - 3306:3306
 
@@ -20,7 +19,6 @@ services:
         context: ./src/Python/classifier
       depends_on: 
         - db
-
       ports:
         - 5001:5001
       restart: on-failure
@@ -31,7 +29,6 @@ services:
         context: ./src/Python/preprocessor
       depends_on: 
         - db
-
       ports:
         - 5002:5002
       restart: on-failure
@@ -42,7 +39,6 @@ services:
         context: ./src/Python/backend
       depends_on: 
         - db
-
       ports:
         - 5003:5003
       restart: on-failure
@@ -60,6 +56,18 @@ services:
       ports:
         - "8000:8000"
       command: [nginx-debug, "-g", "daemon off;"]
+
+    apache_superset: 
+      container_name: ApacheSuperset
+      build:
+        context: ./src/ApacheSuperset
+      depends_on: 
+        - db
+      ports:
+        - 8080:8088
+
+      
+      
 
 volumes:
   my-datavolume:

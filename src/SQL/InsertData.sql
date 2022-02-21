@@ -18,24 +18,3 @@ FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
 (score,socreConfidence,classification,classificationConfidence,contentType,contentTypeConfidence,reviewSentenceId);
 
-
-create view UnloadedData as 
-select
-	RR.review,
-    RR.creationDate,
-    RR.setType,
-    RR.source,
-    RR.modDate,
-    RS.sentence,
-	CR.score,
-    CR.socreConfidence,
-    CR.classification,
-    CR.classificationConfidence,
-    CR.contentType,
-    CR.contentTypeConfidence
-
-from 
-	ClassificationResult as CR
-inner join ReviewSentences as RS on RS.id = CR.reviewSentenceId
-inner join RawReviews as RR on RR.id = RS.originalReviewId
-order by RR.id ;
