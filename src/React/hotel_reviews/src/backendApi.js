@@ -3,13 +3,13 @@ import basicRestRequests from './basicRestRequests.js';
 
 class backendApi extends basicRestRequests
 { 
-    static #baseUrl = "http://127.0.0.1:8000/backend/";
+    static #baseUrl = ":8000/backend/";
 
-
+  
 
     static async addNewReview(str)
     {   
-        let url = this.#baseUrl + "addNewReview";
+        let url = "http://"+ window.location.hostname + this.#baseUrl + "addNewReview";
         console.log(url);
         let json = {
           "review": str,
@@ -23,7 +23,7 @@ class backendApi extends basicRestRequests
 
     static async getReviews()
     {
-      let url = this.#baseUrl + "getAllData";
+      let url = "http://"+ window.location.hostname + this.#baseUrl + "getAllData";
       let result = await this.GetRequest(url);
       
       let data = JSON.parse(result);
