@@ -3,7 +3,7 @@ import basicRestRequests from './basicRestRequests.js';
 
 class backendApi extends basicRestRequests
 { 
-    static #baseUrl = "http://127.0.0.1:5003/";
+    static #baseUrl = "http://127.0.0.1:8000/backend/";
 
 
 

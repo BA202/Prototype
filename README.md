@@ -16,7 +16,7 @@ docker-compose up
 ## Apache Superset 
 
 ```
- docker exec -it superset superset fab create-admin \
+ docker exec -it apache_superset superset fab create-admin \
                --username admin \
                --firstname Superset \
                --lastname Admin \
@@ -25,14 +25,14 @@ docker-compose up
 ```
 
 ```
-docker exec -it superset superset db upgrade
+docker exec -it apache_superset superset db upgrade
 ```
 
 
 ```
-docker exec -it superset superset load_examples
+docker exec -it apache_superset superset load_examples
 ```
 
 ```
-docker exec -it superset superset init
+docker exec -it apache_superset superset init
 ```
