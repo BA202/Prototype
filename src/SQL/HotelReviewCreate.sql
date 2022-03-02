@@ -5,7 +5,7 @@ USE HotelReviews;
 DROP TABLE IF EXISTS `RawReviews`;
 CREATE TABLE `RawReviews`(
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `review` VARCHAR(100) NOT NULL,
+    `review` VARCHAR(2500) NOT NULL,
     `setType` VARCHAR(50) NOT NULL,
     `source` VARCHAR(50) NOT NULL,
     `language` VARCHAR(50) NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE `RawReviews`(
 DROP TABLE IF EXISTS `ReviewSentences`;
 CREATE TABLE `ReviewSentences`(
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `sentence` VARCHAR(50) NOT NULL,
+    `sentence` VARCHAR(500) NOT NULL,
     `originalReviewId` INT UNSIGNED NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT `fk_RawRef` FOREIGN KEY(originalReviewId) REFERENCES RawReviews (id),
@@ -29,7 +29,7 @@ CREATE TABLE `ReviewSentences`(
 DROP TABLE IF EXISTS `ClassificationResult`;
 CREATE TABLE `ClassificationResult`(
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `score` DOUBLE NULL,
+    `score` VARCHAR(50) NULL,
     `socreConfidence` DOUBLE NULL,
     `classification` VARCHAR(50) NULL,
     `classificationConfidence` DOUBLE NULL,
@@ -65,3 +65,6 @@ from
 inner join ReviewSentences as RS on RS.id = CR.reviewSentenceId
 inner join RawReviews as RR on RR.id = RS.originalReviewId
 order by RR.id, RS.id ;
+
+
+

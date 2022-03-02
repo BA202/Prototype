@@ -37,6 +37,7 @@
     align-content: center;
     flex-direction: column;
     width: 100px;
+    font-size: 100%;
 } 
 
 .Classification_ClassificationConfidence {
