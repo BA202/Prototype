@@ -87,26 +87,30 @@ def createReviewTemplate(rawReview,creationTime,setType,source,language):
 
 
 def getAllData():
-  res = sqlQuery(f"SELECT * FROM UnloadedData;")
-  dataFrame = {
-    "data":{
-        "Reviews":{
+    res = sqlQuery(f"SELECT * FROM UnloadedData;")
+    return toJson(res)
 
-        }
-    },
-    "meta":{
+def getAllTrainingData():
+    res = sqlQuery(f"SELECT * FROM UnloadedTrainingData;")
+    return toJson(res)
 
+
+def toJson(res):
+    dataFrame = {
+        "data":{
+            "Reviews":{}
+        },
+            "meta":{}
     }
-  }
-  for line in res:
-    if not line[0] in dataFrame["data"]["Reviews"].keys():
-        dataFrame["data"]["Reviews"][line[0]] = createReviewTemplate(line[1],line[2],line[3],line[4],line[5])
-        dataFrame["data"]["Reviews"][line[0]]["Sentences"][line[6]] = createSentenceTemplate(line[7],line[8])
-        dataFrame["data"]["Reviews"][line[0]]["Sentences"][line[6]]["Classifications"][line[9]] = createClassifiactionTemplate(line[10],line[11], line[12],line[13], line[14],line[15])
-    else:
-        if not line[6] in dataFrame["data"]["Reviews"][line[0]]["Sentences"].keys():
-            dataFrame["data"]["Reviews"][line[0]]["Sentences"][line[6]] = createSentenceTemplate(line[7], line[8])
-            dataFrame["data"]["Reviews"][line[0]]["Sentences"][line[6]]["Classifications"][line[9]] = createClassifiactionTemplate(line[10], line[11], line[12], line[13], line[14], line[15])
+    for line in res:
+        if not line[0] in dataFrame["data"]["Reviews"].keys():
+            dataFrame["data"]["Reviews"][line[0]] = createReviewTemplate(line[1],line[2],line[3],line[4],line[5])
+            dataFrame["data"]["Reviews"][line[0]]["Sentences"][line[6]] = createSentenceTemplate(line[7],line[8])
+            dataFrame["data"]["Reviews"][line[0]]["Sentences"][line[6]]["Classifications"][line[9]] = createClassifiactionTemplate(line[10],line[11], line[12],line[13], line[14],line[15])
         else:
-            dataFrame["data"]["Reviews"][line[0]]["Sentences"][line[6]]["Classifications"][line[9]] = createClassifiactionTemplate(line[10], line[11], line[12], line[13], line[14], line[15])
-  return json.dumps(dataFrame)
+            if not line[6] in dataFrame["data"]["Reviews"][line[0]]["Sentences"].keys():
+                dataFrame["data"]["Reviews"][line[0]]["Sentences"][line[6]] = createSentenceTemplate(line[7], line[8])
+                dataFrame["data"]["Reviews"][line[0]]["Sentences"][line[6]]["Classifications"][line[9]] = createClassifiactionTemplate(line[10], line[11], line[12], line[13], line[14], line[15])
+            else:
+                dataFrame["data"]["Reviews"][line[0]]["Sentences"][line[6]]["Classifications"][line[9]] = createClassifiactionTemplate(line[10], line[11], line[12], line[13], line[14], line[15])
+    return json.dumps(dataFrame)

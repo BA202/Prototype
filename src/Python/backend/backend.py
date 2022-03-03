@@ -31,6 +31,12 @@ def getAllData():
     ret.headers['Content-Type'] = 'application/json'
     return ret
 
+@app.route('/getAllTraningData')
+def getAllTraningData():
+    ret = flask.Response(DBInteraction.getAllTrainingData())
+    ret.headers['Content-Type'] = 'application/json'
+    return ret
+
 @app.route('/addNewReview',methods = ['POST'])
 def addNewReview():
     data = request.get_json(silent=False)

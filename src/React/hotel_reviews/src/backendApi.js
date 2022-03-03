@@ -13,9 +13,9 @@ class backendApi extends basicRestRequests
         console.log(url);
         let json = {
           "review": str,
-          "setType": "Training",
+          "setType": "UserInput",
           "source": "Online",
-          "language": "Deutsch"
+          "language": "English"
       };
         let result = await this.PostRequest(url,json);
         return result;
