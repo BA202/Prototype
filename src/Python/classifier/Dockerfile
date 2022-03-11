@@ -1,9 +1,10 @@
-FROM python:3.7-alpine
+FROM python:3.8-slim-buster
 
 WORKDIR  /app
 
-RUN pip install Flask
-RUN pip install mysql-connector-python
+COPY requirements.txt requirements.txt
+
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 

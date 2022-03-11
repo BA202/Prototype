@@ -1,12 +1,18 @@
+from re import I
 import threading
 import flask 
-import DBInteraction
+import DBInteraction 
+from DataHandler import DataHandler
+from ScoreClassifier import ScoreClassifier
+
 
 app = flask.Flask(__name__)
 
 def classification(str):
     print("Classifying:", str)
-    return [[0.5,1,"Pool",1,"Review", 1]]
+    predScore = scoreClassifier.classify(str)
+    predCat = categoryClassifier.classify(str)
+    return [[predScore,1,predCat,1,"Review", 1]]
 
 def Classifying_thread(id):
     classificationResult = classification(DBInteraction.getSentenceById(id))
@@ -23,4 +29,12 @@ def index():
     return "Classifying"
 
 if __name__ == '__main__':
+    localDataHandler = DataHandler()
+
+    dataScore = localDataHandler.getScoreData()
+    dataKat = localDataHandler.getCategorieData("Location") 
+
+    scoreClassifier = ScoreClassifier(dataScore)
+    categoryClassifier = ScoreClassifier(dataKat)
+
     app.run(host='0.0.0.0', port=5001)

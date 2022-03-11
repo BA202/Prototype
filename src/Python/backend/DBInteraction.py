@@ -94,6 +94,10 @@ def getAllTrainingData():
     res = sqlQuery(f"SELECT * FROM UnloadedTrainingData;")
     return toJson(res)
 
+def getAllUserInputData():
+    res = sqlQuery(f"SELECT * FROM UnloadedUserInputData;")
+    return toJson(res)
+
 
 def toJson(res):
     dataFrame = {

@@ -21,13 +21,33 @@ class backendApi extends basicRestRequests
         return result;
     }
 
-    static async getReviews()
+    static async getAllReviews()
     {
       let url = "http://"+ window.location.hostname + this.#baseUrl + "getAllData";
       let result = await this.GetRequest(url);
       
       let data = JSON.parse(result);
-      //console.log(data);
+      console.log(data);
+      return data;
+    }
+
+    static async getTrainingData()
+    {
+      let url = "http://"+ window.location.hostname + this.#baseUrl + "getAllTraningData";
+      let result = await this.GetRequest(url);
+      
+      let data = JSON.parse(result);
+      console.log(data);
+      return data;
+    }
+
+    static async getUserInputData()
+    {
+      let url = "http://"+ window.location.hostname + this.#baseUrl + "getAllUserInputData";
+      let result = await this.GetRequest(url);
+      
+      let data = JSON.parse(result);
+      console.log(data);
       return data;
     }
 

@@ -7,6 +7,7 @@ class ClassifiedReview extends React.Component {
     constructor(props) {
         super(props);
         if (typeof this.props.data !== 'undefined') {
+          //console.log(this.props.data);
           this.state ={
             review : this.props.data.RawReview,
             sentence : this.props.data.Sentences, 
@@ -15,6 +16,7 @@ class ClassifiedReview extends React.Component {
         }
         else
         {
+
           this.state ={
             review : "",
             sentence : {}, 
@@ -31,6 +33,7 @@ class ClassifiedReview extends React.Component {
       {
         table.push(<tr><Sentence data = {this.state.sentence[Object.keys(this.state.sentence)[res]]}></Sentence></tr>)
       }
+      
       let sentenceView = <table>{table}</table>
 
       return (

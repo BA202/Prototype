@@ -3,6 +3,7 @@ import threading
 import flask 
 import DBInteraction
 import requests
+import preprocessorImplementationV1
 
 url = "http://classifier:5001/?id="
 
@@ -10,7 +11,9 @@ app = flask.Flask(__name__)
 
 
 def preprocerssor(str):
-    return [str.lower()]
+    str = preprocessorImplementationV1.cleanUp(str)
+    res = preprocessorImplementationV1.splitInToParts(str)
+    return res
 
 def preprocess_thread(id):
     cleanText = preprocerssor(DBInteraction.getReviewById(id))

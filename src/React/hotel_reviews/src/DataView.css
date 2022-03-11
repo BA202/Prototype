@@ -34,3 +34,95 @@
 {
     text-align: center;
 }
+
+ /* Style The Dropdown Button */
+ .dropBtn {
+    background-color: #223D73;
+    color: white;
+    height: 40px;
+    width: 210px;
+    font-size: 17px;
+    border: none;
+    cursor:auto;
+    transition: all 0.3s ease 0s;
+
+
+    
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+    transition: all 0.3s ease 0s;
+    align-items: center;
+    text-align: center;
+}
+
+
+.dropdown:hover
+{
+    transform: translateY(-5px);
+}
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    width: 210px;
+    text-align: center;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    transition: all 0.3s ease 0s;
+}
+
+/* Links inside the dropdown */
+.dropdown-content button {
+    text-align: center;
+    padding: 5px 16px;
+    text-decoration: none;
+    border-style: none;
+    background-color: transparent;
+    font-size: 100%;
+    width: 100%;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content button:hover {
+    background-color: #f1f1f1
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+    
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropBtn {
+    background-color: #223D73;
+}
+
+.DropdownImg
+{
+    height: 25px;
+    transform: rotate(0deg) ;
+    position: absolute;
+    top: 5px;
+    right: 9px;
+    opacity: 1;
+    transition: all 0.3s ease 0s;
+}
+
+.dropdown:hover .DropdownImg {
+    transform: rotate(180deg);
+    opacity: 0;
+}
+
+.LabelDropdown
+{
+    margin-right: 10px;
+    margin-left: 20px;
+    color: #4D4D4D;
+}
