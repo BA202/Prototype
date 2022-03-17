@@ -3,7 +3,8 @@ import threading
 import flask 
 import DBInteraction 
 from DataHandler import DataHandler
-from ScoreClassifier import ScoreClassifier
+from ScoreClassifierV1 import ScoreClassifierV1
+from ScoreClassifierV15 import ScoreClassifierV15
 
 
 app = flask.Flask(__name__)
@@ -34,7 +35,7 @@ if __name__ == '__main__':
     dataScore = localDataHandler.getScoreData()
     dataKat = localDataHandler.getCategorieData("Location") 
 
-    scoreClassifier = ScoreClassifier(dataScore)
-    categoryClassifier = ScoreClassifier(dataKat)
+    scoreClassifier = ScoreClassifierV15(dataScore)
+    categoryClassifier = ScoreClassifierV1(dataKat)
 
     app.run(host='0.0.0.0', port=5001)

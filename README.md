@@ -6,7 +6,7 @@ This is a running dockerised build of the prototype
 
 ### Frontend:
 ```
-src//React/hotel_reviews/src/backendApi.js
+src/React/hotel_reviews/src/backendApi.js
 ```
 change line 6 to
 ```js
@@ -25,7 +25,7 @@ in the file **classifier.py** at line 32
 localDataHandler = DataHandler("./Data")
 ```
 
-#
+
 ## Usage
 clone the git repo
 ```
