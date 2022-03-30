@@ -8,7 +8,7 @@ services:
         MYSQL_DATABASE: HotelReviews
       volumes:
       - "./src/SQL/HotelReviewCreate.sql:/docker-entrypoint-initdb.d/1.sql"
-#      - my-datavolume:/var/lib/mysql
+#      - filePath:/var/lib/mysql
       ports:
         - 3306:3306
 

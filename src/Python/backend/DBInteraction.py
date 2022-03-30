@@ -7,12 +7,21 @@ def sqlQuery(query_str):
                           host='db',
                           database='HotelReviews')
     cursor = cnx.cursor()
-
     query = (query_str)
     cursor.execute(query)
     res = cursor.fetchall()
     cnx.close()
     return res
+
+def sqlDelete(query_str):
+    cnx = mysql.connector.connect(user='root', password='root',
+                          host='db',
+                          database='HotelReviews')
+    cursor = cnx.cursor()
+    query = (query_str)
+    cursor.execute(query)
+    cnx.commit()
+    cnx.close()
 
 def sqlSet(query_str):
     cnx = mysql.connector.connect(user='root', password='root',
@@ -27,8 +36,14 @@ def sqlSet(query_str):
     cnx.close()
     return res
 
+def deleteExampleReview(id):
+    sqlDelete(f"DELETE FROM HotelReviews.ExampleReviews WHERE (id = {id});")
+
 def getRawReviews():
     return json.dumps(sqlQuery("SELECT review FROM HotelReviews.RawReviews"))
+
+def getReviewExamples():
+    return json.dumps(sqlQuery("SELECT id,review FROM HotelReviews.ExampleReviews;"))
 
 def getReviewsAsSentances():
     return json.dumps(sqlQuery("SELECT sentence FROM HotelReviews.ReviewSentences;"))
@@ -40,7 +55,8 @@ def getAllClassifiedResults():
         inner join ReviewSentences on ClassificationResult.reviewSentenceId = ReviewSentences.id
         inner join RawReviews on ReviewSentences.originalReviewId = RawReviews.id;
         """))
-
+def addNewLog(type,source,message):
+    return sqlSet(f"INSERT INTO `HotelReviews`. `Logs`(`type`, `source`, `message`) VALUES('{type}', '{source}', '{message}');")
 
 def addNewReview(review,setType,source,language):
     return sqlSet(f"INSERT INTO `HotelReviews`. `RawReviews`(`review`, `setType`, `source`, `language`) VALUES('{review}', '{setType}', '{source}', '{language}');")

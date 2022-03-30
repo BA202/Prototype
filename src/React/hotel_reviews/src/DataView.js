@@ -11,7 +11,7 @@ class DataView extends React.Component {
 
         this.state ={
           resetView: false,
-          selectedData: "GetAllData",
+          selectedData: "GetUserInputData",
           review : {
             "data":{
               "Reviews":{
@@ -82,9 +82,9 @@ class DataView extends React.Component {
                 <div className="dropdown">
                   <button className="dropBtn">{this.state.selectedData}<img src="./Dropdown.svg" className="DropdownImg" alt="DropDownArrow" readOnly></img></button>
                   <div className="dropdown-content">
-                    <div><button onClick={this.dropDownButtonPressed} id="GetAllData" className="DropdownContentText">GetAllData</button><br></br></div>
-                    <div><button onClick={this.dropDownButtonPressed} id="GetUserInputData" className="DropdownContentText">GetUserInputData</button><br></br></div>
-                    <div><button onClick={this.dropDownButtonPressed} id="GetTrainingData" className="DropdownContentText">GetTrainingData</button><br></br></div>
+                    <div><button onClick={this.dropDownButtonPressed} id="GetAllData" className="DropdownContentText">GetAllData</button></div>
+                    <div><button onClick={this.dropDownButtonPressed} id="GetUserInputData" className="DropdownContentText">GetUserInputData</button></div>
+                    <div><button onClick={this.dropDownButtonPressed} id="GetTrainingData" className="DropdownContentText">GetTrainingData</button></div>
                   </div>
                 </div>
               </div>
@@ -97,11 +97,11 @@ class DataView extends React.Component {
     async submitPressed(e)
     {
       let data = null;
-      if(this.state.selectedData == "GetTrainingData")
+      if(this.state.selectedData === "GetTrainingData")
       {
         data = await backendApi.getTrainingData();
       }
-      else if(this.state.selectedData == "GetUserInputData")
+      else if(this.state.selectedData === "GetUserInputData")
       {
         data = await backendApi.getUserInputData();
       }

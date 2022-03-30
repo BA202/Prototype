@@ -21,6 +21,26 @@ class backendApi extends basicRestRequests
         return result;
     }
 
+    static async addClassifiedReview(data)
+    {   
+        let url = "http://"+ window.location.hostname + this.#baseUrl + "addClassifiedReview";
+        console.log(url);
+        let result = await this.PostRequest(url,data);
+        return result;
+    }
+    
+
+    static async classifyReview(str)
+    {   
+        let url = "http://"+ window.location.hostname + this.#baseUrl + "classifyReview";
+        console.log(url);
+        let json = {
+          "review": str
+      };
+        let result = await this.PostRequest(url,json);
+        return result;
+    }
+
     static async getAllReviews()
     {
       let url = "http://"+ window.location.hostname + this.#baseUrl + "getAllData";
@@ -44,6 +64,16 @@ class backendApi extends basicRestRequests
     static async getUserInputData()
     {
       let url = "http://"+ window.location.hostname + this.#baseUrl + "getAllUserInputData";
+      let result = await this.GetRequest(url);
+      
+      let data = JSON.parse(result);
+      console.log(data);
+      return data;
+    }
+
+    static async getReviewExamples()
+    {
+      let url = "http://"+ window.location.hostname + this.#baseUrl + "getReviewExamples";
       let result = await this.GetRequest(url);
       
       let data = JSON.parse(result);

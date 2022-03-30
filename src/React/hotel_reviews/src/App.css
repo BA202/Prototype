@@ -25,6 +25,8 @@ body
   background-color: #223D73;
   margin-top: 40px;
   margin-bottom: 30px;
+  position:relative;
+  left: 25%;
 }
 
 

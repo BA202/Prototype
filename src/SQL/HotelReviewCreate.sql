@@ -40,6 +40,27 @@ CREATE TABLE `ClassificationResult`(
 	CONSTRAINT `fk_SenRef` FOREIGN KEY(reviewSentenceId) REFERENCES ReviewSentences (id)
 );
 
+DROP TABLE IF EXISTS `ExampleReviews`;
+CREATE TABLE `ExampleReviews`(
+    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `review` VARCHAR(2500) NOT NULL,
+    `creationDate` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `modDate` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)
+);
+
+DROP TABLE IF EXISTS `Logs`;
+CREATE TABLE `Logs`(
+    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `message` VARCHAR(1000) NOT NULL,
+    `source` VARCHAR(50) NULL,
+    `type` VARCHAR(50) NULL,
+    `creationDate` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)
+);
+
+
+
 drop view if exists UnloadedData;
 create view UnloadedData as 
 select

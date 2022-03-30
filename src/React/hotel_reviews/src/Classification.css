@@ -23,11 +23,12 @@
     align-content: center;
     flex-direction: column;
     width: 100px;
+    font-size: 90%;
 } 
 
 .Classification_ScoreConfidence { 
     grid-area: 1 / 2 / 2 / 3; 
-    width: 60px;
+    width: 40px;
 } 
 
 .Classification_Classification { 
@@ -37,12 +38,12 @@
     align-content: center;
     flex-direction: column;
     width: 100px;
-    font-size: 100%;
+    font-size: 90%;
 } 
 
 .Classification_ClassificationConfidence {
      grid-area: 2 / 2 / 3 / 3;
-     width: 60px; 
+     width: 40px; 
 }
 
 .Classification_ContentType { 
@@ -52,11 +53,12 @@
     align-content: center;
     flex-direction: column;
     width: 100px;
+    font-size: 90%;
 } 
 
 .Classification_ContentTypeConfidence { 
     grid-area: 3 / 2 / 4 / 3; 
-    width: 60px;
+    width: 40px;
 } 
 
 
@@ -75,5 +77,5 @@
 }
 
 .Result{
-    font-size: 25px;
+    font-size: 100%;
 }
