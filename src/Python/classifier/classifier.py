@@ -7,6 +7,7 @@ import DBInteraction
 from DataHandler import DataHandler
 from ScoreClassifierV1 import ScoreClassifierV1
 from ScoreClassifierV15 import ScoreClassifierV15
+from SentimentAnalysisPipeline import SentimentAnalysisPipeline
 from Logger import Logger
 from Logger import LogSource
 from Logger import LogType
@@ -16,9 +17,9 @@ app = flask.Flask(__name__)
 
 def classification(str):
     print("Classifying:", str)
-    predScore = scoreClassifier.classify(str)
+    predScore, confidence = scoreClassifier.classify(str)
     predCat = categoryClassifier.classify(str)
-    return [[predScore,1,predCat,1,"Review", 1]]
+    return [[predScore,round(confidence, 4),predCat,1,"Review", 1]]
 
 def Classifying_thread(id):
     classificationResult = classification(DBInteraction.getSentenceById(id))
@@ -64,10 +65,9 @@ if __name__ == '__main__':
     localDataHandler = DataHandler()
     logger = Logger()
 
-    dataScore = localDataHandler.getScoreData()
     dataKat = localDataHandler.getCategorieData("Location") 
 
-    scoreClassifier = ScoreClassifierV15(dataScore)
+    scoreClassifier = SentimentAnalysisPipeline()
     categoryClassifier = ScoreClassifierV1(dataKat)
 
     app.run(host='0.0.0.0', port=5001)

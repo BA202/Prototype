@@ -134,3 +134,5 @@ dmypy.json
 #Data files
 .csv
 .json
+
+TrainedModel_BERT_SentimentAnalysis_HotelReviews

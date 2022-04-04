@@ -6,3 +6,5 @@ numpy
 scipy
 scikit-learn
 vaderSentiment
+transformers
+tensorflow
