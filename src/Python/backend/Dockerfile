@@ -1,10 +1,12 @@
-FROM python:3.7-alpine
+FROM python:3.8-slim-buster
 
 WORKDIR  /app
 
+RUN pip install numpy
 RUN pip install Flask
 RUN pip install mysql-connector-python
 RUN pip install requests
+RUN pip install langid
 
 COPY . .
 

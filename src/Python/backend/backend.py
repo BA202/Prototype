@@ -4,6 +4,7 @@ from flask import request
 import DBInteraction
 import requests
 import json
+from langid.langid import LanguageIdentifier, model
 from Logger import Logger
 from Logger import LogSource
 from Logger import LogType
@@ -13,8 +14,26 @@ app = flask.Flask(__name__)
 
 url = "http://preprocessor:5002"
 
+
 def newLog(type,source,message):
     DBInteraction.addNewLog(type,source,message)
+
+
+@app.route('/detectLanguage',methods = ['POST'])
+def detectLanguage():
+    newLog(LogType.Informational,LogSource.Backend ,f"{str(request.url)}\n{str(request.headers)}")
+    data = request.get_json(silent=False)
+
+    identifier = LanguageIdentifier.from_modelstring(model, norm_probs=True)
+    language = identifier.classify(data["Sen"])
+    lan = "eng"
+    if language[0] == "de":
+        lan =  'deu'
+
+
+    ret = flask.Response(json.dumps({'language':lan}))
+    ret.headers['Content-Type'] = 'application/json'
+    return ret
 
 @app.route('/getRawReviews')
 def getRawReviews():
@@ -40,14 +59,16 @@ def getAllClassifiedResults():
 @app.route('/getAllData')
 def getAllData():
     newLog(LogType.Informational,LogSource.Backend ,f"{str(request.url)}\n{str(request.headers)}")
-    ret = flask.Response(DBInteraction.getAllData())
+    id = flask.request.args.get("lan")
+    ret = flask.Response(DBInteraction.getAllData(id))
     ret.headers['Content-Type'] = 'application/json'
     return ret
 
 @app.route('/getAllTraningData')
 def getAllTraningData():
     newLog(LogType.Informational,LogSource.Backend ,f"{str(request.url)}\n{str(request.headers)}")
-    ret = flask.Response(DBInteraction.getAllTrainingData())
+    id = flask.request.args.get("lan")
+    ret = flask.Response(DBInteraction.getAllTrainingData(id))
     ret.headers['Content-Type'] = 'application/json'
     return ret
 
@@ -71,7 +92,7 @@ def addNewReview():
     data = request.get_json(silent=False)
     print(data)
     id =  DBInteraction.addNewReview(data['review'],data['setType'],data['source'],data['language'])[0][0]
-    response = requests.request("GET", url+"/?id="+str(id))
+    response = requests.request("GET", url+"/?id="+str(id)+f"&lan='{data['language']}'")
     print(response.text)
     return getRawReviews() 
 
@@ -96,6 +117,9 @@ def addClassifiedReview():
 def classifyReview():
     newLog(LogType.Informational,LogSource.Backend ,f"{str(request.url)}\n{str(request.headers)}")
     data = request.get_json(silent=False)
+    print(data)
+    if not 'lan' in data.keys():
+        data['lan'] = "English"
     payload = json.dumps(data)
     headers = {'Content-Type': 'application/json'}
     dataFromPreprocessor = json.loads(requests.request("POST", url+"/preprocess", headers=headers, data=payload).text)

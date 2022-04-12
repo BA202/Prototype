@@ -87,6 +87,60 @@ inner join ReviewSentences as RS on RS.id = CR.reviewSentenceId
 inner join RawReviews as RR on RR.id = RS.originalReviewId
 order by RR.id, RS.id ;
 
+drop view if exists UnloadedDataEnglish;
+create view UnloadedDataEnglish as 
+select
+	RR.id as RRID,
+	RR.review,
+    RR.creationDate,
+    RR.setType,
+    RR.source,
+    RR.language,
+    RS.id as RSID,
+    RS.sentence,
+    RS.modDate,
+    CR.id as CRID,
+	CR.score,
+    CR.socreConfidence,
+    CR.classification,
+    CR.classificationConfidence,
+    CR.contentType,
+    CR.contentTypeConfidence
+
+from 
+	ClassificationResult as CR
+inner join ReviewSentences as RS on RS.id = CR.reviewSentenceId
+inner join RawReviews as RR on RR.id = RS.originalReviewId
+where RR.language = 'English'
+order by RR.id, RS.id ;
+
+drop view if exists UnloadedDataGerman;
+create view UnloadedDataGerman as 
+select
+	RR.id as RRID,
+	RR.review,
+    RR.creationDate,
+    RR.setType,
+    RR.source,
+    RR.language,
+    RS.id as RSID,
+    RS.sentence,
+    RS.modDate,
+    CR.id as CRID,
+	CR.score,
+    CR.socreConfidence,
+    CR.classification,
+    CR.classificationConfidence,
+    CR.contentType,
+    CR.contentTypeConfidence
+
+from 
+	ClassificationResult as CR
+inner join ReviewSentences as RS on RS.id = CR.reviewSentenceId
+inner join RawReviews as RR on RR.id = RS.originalReviewId
+where RR.language = 'German'
+order by RR.id, RS.id ;
+
 
 drop view if exists UnloadedTrainingData;
 create view UnloadedTrainingData as 
@@ -114,6 +168,62 @@ from
 inner join ReviewSentences as RS on RS.id = CR.reviewSentenceId
 inner join RawReviews as RR on RR.id = RS.originalReviewId
 where RR.setType = 'Training'
+order by RR.id, RS.id ;
+
+drop view if exists UnloadedTrainingDataGerman;
+create view UnloadedTrainingDataGerman as 
+select
+	RR.id as RRID,
+	RR.review,
+    RR.creationDate,
+    RR.setType,
+    RR.source,
+    RR.language,
+    RS.id as RSID,
+    RS.sentence,
+    RS.modDate,
+    CR.id as CRID,
+	CR.score,
+    CR.socreConfidence,
+    CR.classification,
+    CR.classificationConfidence,
+    CR.contentType,
+    CR.contentTypeConfidence
+
+from 
+	ClassificationResult as CR
+
+inner join ReviewSentences as RS on RS.id = CR.reviewSentenceId
+inner join RawReviews as RR on RR.id = RS.originalReviewId
+where RR.setType = 'Training' and RR.language = 'German'
+order by RR.id, RS.id ;
+
+drop view if exists UnloadedTrainingDataEnglish;
+create view UnloadedTrainingDataEnglish as 
+select
+	RR.id as RRID,
+	RR.review,
+    RR.creationDate,
+    RR.setType,
+    RR.source,
+    RR.language,
+    RS.id as RSID,
+    RS.sentence,
+    RS.modDate,
+    CR.id as CRID,
+	CR.score,
+    CR.socreConfidence,
+    CR.classification,
+    CR.classificationConfidence,
+    CR.contentType,
+    CR.contentTypeConfidence
+
+from 
+	ClassificationResult as CR
+
+inner join ReviewSentences as RS on RS.id = CR.reviewSentenceId
+inner join RawReviews as RR on RR.id = RS.originalReviewId
+where RR.setType = 'Training' and RR.language = 'English'
 order by RR.id, RS.id ;
 
 drop view if exists UnloadedUserInputData;

@@ -20,12 +20,12 @@ def preprocerssor(str):
     res = preprocessorImplementationV1.splitInToParts(str)
     return res
 
-def preprocess_thread(id):
+def preprocess_thread(id,lan):
     cleanText = preprocerssor(DBInteraction.getReviewById(id))
     print(cleanText)
     for sen in cleanText:
         senID = DBInteraction.addNewsentence(sen,id)[0][0]
-        response = requests.request("GET", url + "/?id=" +str(senID))
+        response = requests.request("GET", url + "/?id=" +str(senID)+f"&lan='{lan}'")
         print(response.text)
 
 
@@ -33,7 +33,8 @@ def preprocess_thread(id):
 def index():
     logger.newLog(LogType.Informational,LogSource.Classifier ,f"{str(request.url)}\n{str(request.headers)}")
     id = flask.request.args.get("id")
-    asyncPreprocess = threading.Thread(target=preprocess_thread, args=(id,))
+    lan = flask.request.args.get("lan")
+    asyncPreprocess = threading.Thread(target=preprocess_thread, args=(id,lan,))
     asyncPreprocess.start()
     return "Preprocessing"
 
@@ -45,7 +46,10 @@ def preprocess():
     data = request.get_json(silent=False)
     review = data['review']
     cleanText = preprocerssor(review)
-    payload = json.dumps(cleanText)
+    payload = json.dumps({
+        "listOfTextes":cleanText,
+        "lan": data['lan']
+    })
     headers = {'Content-Type': 'application/json'}
     
     ret = flask.Response(requests.request("POST", url+"/classify", headers=headers, data=payload))

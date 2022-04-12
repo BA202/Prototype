@@ -1,28 +1,37 @@
 import json
 from re import I
 import threading
+from tkinter.messagebox import NO
 import flask 
 from flask import request
 import DBInteraction 
 from DataHandler import DataHandler
-from ScoreClassifierV1 import ScoreClassifierV1
-from ScoreClassifierV15 import ScoreClassifierV15
 from SentimentAnalysisPipeline import SentimentAnalysisPipeline
 from Logger import Logger
 from Logger import LogSource
 from Logger import LogType
+from SupportVectorMachine import SupportVectorMachine
 
 
 app = flask.Flask(__name__)
 
-def classification(str):
-    print("Classifying:", str)
-    predScore, confidence = scoreClassifier.classify(str)
-    predCat = categoryClassifier.classify(str)
-    return [[predScore,round(confidence, 4),predCat,1,"Review", 1]]
 
-def Classifying_thread(id):
-    classificationResult = classification(DBInteraction.getSentenceById(id))
+
+def classification(str,lan):
+    print("Classifying:", str)
+    if lan == None:
+        raise ValueError
+    predScore, confidence = scoreClassifier.classify(str)
+    if lan == "English":
+        predCat, CatConf = categoryClassifierEng.classify(str)
+    else:
+        predCat, CatConf = categoryClassifierDe.classify(str)
+
+    return [[predScore,round(confidence, 4),predCat,round(CatConf, 4),"Review", 1]]
+
+def Classifying_thread(id,lan):
+    print(lan)
+    classificationResult = classification(DBInteraction.getSentenceById(id),lan)
     print(classificationResult)
     for classifiaction in classificationResult:
         DBInteraction.addNewClassification(classifiaction,id)
@@ -31,8 +40,9 @@ def Classifying_thread(id):
 def index():
     logger.newLog(LogType.Informational,LogSource.Classifier ,f"{str(request.url)}\n{str(request.headers)}")
     id = flask.request.args.get("id")
+    lan = flask.request.args.get("lan")
     print("id form Preproc",id)
-    asyncClassifying = threading.Thread(target=Classifying_thread, args=(id,))
+    asyncClassifying = threading.Thread(target=Classifying_thread, args=(id,lan,))
     asyncClassifying.start()
     return "Classifying"
 
@@ -40,10 +50,12 @@ def index():
 def classify():
     logger.newLog(LogType.Informational,LogSource.Classifier ,f"{str(request.url)}\n{str(request.headers)}")
     data = request.get_json(silent=False)
+    lan = data['lan']
+    data = data['listOfTextes']
     full_response = {}
     for i,sen in enumerate(data):
         print(sen)
-        response = classification(sen)
+        response = classification(sen,lan)
         full_response[str(i)] = {
             "Sentence": sen,
                 "Classifications": {
@@ -62,12 +74,10 @@ def classify():
     return ret
 
 if __name__ == '__main__':
-    localDataHandler = DataHandler()
     logger = Logger()
 
-    dataKat = localDataHandler.getCategorieData("Location") 
-
     scoreClassifier = SentimentAnalysisPipeline()
-    categoryClassifier = ScoreClassifierV1(dataKat)
+    categoryClassifierEng = SupportVectorMachine("English","")
+    categoryClassifierDe = SupportVectorMachine("German","")
 
     app.run(host='0.0.0.0', port=5001)

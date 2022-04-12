@@ -102,12 +102,22 @@ def createReviewTemplate(rawReview,creationTime,setType,source,language):
     }
 
 
-def getAllData():
-    res = sqlQuery(f"SELECT * FROM UnloadedData;")
+def getAllData(lan = ""):
+    if lan == "English":
+        res = sqlQuery(f"SELECT * FROM UnloadedDataEnglish;")
+    elif lan == "German":
+        res = sqlQuery(f"SELECT * FROM UnloadedDataGerman;")
+    else:
+        res = sqlQuery(f"SELECT * FROM UnloadedData;")
     return toJson(res)
 
-def getAllTrainingData():
-    res = sqlQuery(f"SELECT * FROM UnloadedTrainingData;")
+def getAllTrainingData(lan = ""):
+    if lan == "English":
+        res = sqlQuery(f"SELECT * FROM UnloadedTrainingDataEnglish;")
+    elif lan == "German":
+        res = sqlQuery(f"SELECT * FROM UnloadedTrainingDataGerman;")
+    else:
+        res = sqlQuery(f"SELECT * FROM UnloadedTrainingData;")
     return toJson(res)
 
 def getAllUserInputData():
