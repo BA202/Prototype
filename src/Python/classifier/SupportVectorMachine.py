@@ -2,7 +2,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn import svm
 from nltk.stem.snowball import GermanStemmer
 from nltk.stem import PorterStemmer
-from DataHandler.DataHandler import DataHandler
+from DataHandler import DataHandler
 
 
 class SupportVectorMachine:

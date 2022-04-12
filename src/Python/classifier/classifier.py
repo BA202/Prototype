@@ -1,7 +1,6 @@
 import json
 from re import I
 import threading
-from tkinter.messagebox import NO
 import flask 
 from flask import request
 import DBInteraction 

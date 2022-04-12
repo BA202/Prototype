@@ -9,16 +9,32 @@ class backendApi extends basicRestRequests
 
     static async addNewReview(str)
     {   
+      let res = await this.detectLanguage(str);
         let url = "http://"+ window.location.hostname + this.#baseUrl + "addNewReview";
         console.log(url);
         let json = {
           "review": str,
           "setType": "UserInput",
           "source": "Online",
-          "language": "English"
+          "language": res
       };
         let result = await this.PostRequest(url,json);
         return result;
+    }
+
+    static async detectLanguage(str)
+    {
+      let url = "http://"+ window.location.hostname + this.#baseUrl + "detectLanguage";
+      console.log(url);
+      let json = {"Sen": str};
+      let result = await this.PostRequest(url,json);
+      let shortLan = JSON.parse(result.response)["language"];
+      if(shortLan === "deu"){
+        return "German";
+      }
+      else{
+        return "English";
+      }
     }
 
     static async addClassifiedReview(data)
@@ -27,15 +43,18 @@ class backendApi extends basicRestRequests
         console.log(url);
         let result = await this.PostRequest(url,data);
         return result;
+
     }
     
 
     static async classifyReview(str)
-    {   
+    {    
+        let res = await this.detectLanguage(str);
         let url = "http://"+ window.location.hostname + this.#baseUrl + "classifyReview";
         console.log(url);
         let json = {
-          "review": str
+          "review": str,
+          "lan":res
       };
         let result = await this.PostRequest(url,json);
         return result;
