@@ -1,0 +1,48 @@
+.Copyright
+{
+    font-size: 15px;
+    font-weight: lighter;
+}
+
+.LinkButton
+{
+    background-color: transparent;
+    border-style: none;
+    text-decoration: underline;
+    color: #223D73;
+    transition: all 0.3s ease 0s;
+}
+
+.LinkButton:hover
+{
+    transform: translateY(-2px);
+}
+
+.AdditionalInfoText{
+    font-size: 13px;
+    width: 70%;
+}
+
+.Logo{
+    height: 50px;
+}
+
+.Footer
+{
+    display: grid;
+    place-items: center;
+    margin-top: 30px;
+}
+
+.GitHubLogo
+{
+    padding-top: 10px;
+    width: 50px;
+}
+
+.ViewSeperator
+{
+   background-color: #223D73;
+   height: 1px; 
+   margin-bottom: 50px;
+}

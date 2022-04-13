@@ -125,7 +125,52 @@ def getAllUserInputData():
     return toJson(res)
 
 
-def toJson(res):
+def createMultipleFIltersStatements(list, baseSelect):
+
+    res = "AND ("
+    for i,el in enumerate(list):
+        if i > 0:
+            res += "OR "
+        res += baseSelect + f' = "{el}" '
+    return res + ")"
+
+
+def getFilteredData(filters):
+    sqlRequest = f"""SELECT 
+	RR.id as RRID,
+	RR.review,
+    RR.creationDate,
+    RR.setType,
+    RR.source,
+    RR.language,
+    RS.id as RSID,
+    RS.sentence,
+    RS.modDate,
+    CR.id as CRID,
+	CR.score,
+    CR.socreConfidence,
+    CR.classification,
+    CR.classificationConfidence,
+    CR.contentType,
+    CR.contentTypeConfidence
+    from 
+        ClassificationResult as CR
+    inner join ReviewSentences as RS on RS.id = CR.reviewSentenceId
+    inner join RawReviews as RR on RR.id = RS.originalReviewId
+    WHERE 
+        DATE(RR.creationDate) BETWEEN '{filters['Date'][0].split('T')[0]}' AND '{filters['Date'][1].split('T')[0]}' 
+        {createMultipleFIltersStatements(filters['Category'],"CR.classification")}
+        {createMultipleFIltersStatements(filters['Score'],"CR.score")}
+        {createMultipleFIltersStatements(filters['ContentType'],"CR.contentType")}
+        {createMultipleFIltersStatements(filters['Language'],"RR.language")}
+        {createMultipleFIltersStatements(filters['Source'],"RR.source")}
+    order by RR.id, RS.id;"""
+    res = sqlQuery(sqlRequest)
+    return toJson(res,False)
+    
+
+
+def toJson(res, returnJSONasString = True):
     dataFrame = {
         "data":{
             "Reviews":{}
@@ -143,4 +188,7 @@ def toJson(res):
                 dataFrame["data"]["Reviews"][line[0]]["Sentences"][line[6]]["Classifications"][line[9]] = createClassifiactionTemplate(line[10], line[11], line[12], line[13], line[14], line[15])
             else:
                 dataFrame["data"]["Reviews"][line[0]]["Sentences"][line[6]]["Classifications"][line[9]] = createClassifiactionTemplate(line[10], line[11], line[12], line[13], line[14], line[15])
-    return json.dumps(dataFrame)
+    if returnJSONasString:
+        return json.dumps(dataFrame)
+    else:
+        return dataFrame

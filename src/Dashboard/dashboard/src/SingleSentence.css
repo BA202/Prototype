@@ -1,0 +1,135 @@
+.SingleSentence {
+    height: 50px;
+    border-radius: 5px;
+    background-color: var(--main-color-VeryLightGray);
+    display: grid;
+    grid-template-columns: 50% 10% 20% 10% 10%;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+}
+
+.SingleSentence_MainView{
+    margin-bottom: 13px;
+}
+
+.SingleSentence_ParentReview_Box{
+    margin-left: 20px;
+    background-color: var(--main-color-VeryLightGray);
+    margin-right: 20px;
+}
+
+.ReactCollapse--collapse {
+    transition: height 500ms;
+  }
+
+.SingleSentence_ParentReview{
+    font-size: 15px;
+    font-weight: lighter;
+}
+
+.SingleSentence_Center {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+}
+
+.SingleSentence_Sentence {
+    grid-area: 1 / 1 / 2 / 2;
+
+}
+
+.SingleSentence_Score {
+    grid-area: 1 / 2 / 2 / 3; 
+}
+
+.SingleSentence_Classification {
+    grid-area: 1 / 3 / 2 / 4; 
+}
+
+.SingleSentence_Platform {
+    grid-area: 1 / 4 / 2 / 5;
+}
+
+.SingleSentence_Language {
+    grid-area: 1 / 5 / 2 / 6; 
+}
+
+.SingleSentence_Lbl_Res{
+    text-align: center;
+    padding: 3px;
+    margin: 3px;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    transition: all 0.3s ease 0s;
+}
+
+
+.SingleSentence_Lbl_Sentence{
+    background-color: transparent;
+    border-style: none;
+    text-align: left;
+    font-size: 100%;
+    cursor: pointer;
+}
+
+.Positive {
+    background-color: var(--score-color-Green);
+    border-color: var(--score-color-Light-Green);
+    transition: all 0.3s ease 0s;
+}
+
+.Negative {
+    background-color: var(--score-color-Red);
+    border-color: var(--score-color-Light-Red);
+    transition: all 0.3s ease 0s;
+}
+
+.Neutral {
+    background-color: var(--score-color-Yellow);
+    border-color: var(--score-color-Light-Yellow);
+    transition: all 0.3s ease 0s;
+}
+
+.Location {
+    background-color: var(--category-color-Location);
+    border-color: var(--category-color-Light-Location);
+    transition: all 0.3s ease 0s;
+}
+
+.Room {
+    background-color: var(--category-color-Room);
+    border-color: var(--category-color-Light-Room);
+    transition: all 0.3s ease 0s;
+}
+
+.Food {
+    background-color: var(--category-color-Food);
+    border-color: var(--category-color-Light-Food);
+    transition: all 0.3s ease 0s;
+}
+
+.Staff {
+    background-color: var(--category-color-Staff);
+    border-color: var(--category-color-Light-Staff);
+    transition: all 0.3s ease 0s;
+}
+
+.ReasonForStay {
+    background-color: var(--category-color-ReasonForStay);
+    border-color: var(--category-color-Light-ReasonForStay);
+    transition: all 0.3s ease 0s;
+}
+
+.GeneralUtility {
+    background-color: var(--category-color-GeneralUtility);
+    border-color: var(--category-color-Light-GeneralUtility);
+    transition: all 0.3s ease 0s;
+}
+
+.HotelOrganisation {
+    background-color: var(--category-color-HotelOrganisation);
+    border-color: var(--category-color-Light-HotelOrganisation);
+    transition: all 0.3s ease 0s;
+}

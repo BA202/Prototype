@@ -1,0 +1,77 @@
+:root {
+  --main-color-LightBlue: #223D73;
+  --main-color-Blue: #2C3B59;
+  --main-color-LightGray: #D9D9D9;
+  --main-color-VeryLightGray: #E6E6E6;
+  --main-color-Gray: #8C8C8C;
+  --main-color-DarkGray: #0D0D0D;
+
+  --score-color-Green: #73BF94;
+  --score-color-Light-Green: #82d9a8;
+  --score-color-Yellow: #FFE782;
+  --score-color-Light-Yellow: #f9ff82;
+  --score-color-Red: #DC505F;
+  --score-color-Light-Red: #f25666;
+
+  --category-color-Location: #3C5454;
+  --category-color-Light-Location: #507070;
+  --category-color-Room: #387152;
+  --category-color-Light-Room: #4d9e72;
+  --category-color-Food: #718774;
+  --category-color-Light-Food: #9ec0a2;
+  --category-color-Staff: #29799E;
+  --category-color-Light-Staff: #38a1d2;
+  --category-color-ReasonForStay: #7EBFBD;
+  --category-color-Light-ReasonForStay: #7EBFBD;
+  --category-color-GeneralUtility: #f9af54;
+  --category-color-Light-GeneralUtility: #DF9C4C;
+  --category-color-HotelOrganisation: #F5D995;
+  --category-color-Light-HotelOrganisation: #f5e895;
+}
+
+
+.MainView_Content {
+  display: grid;
+  justify-content: center;
+  width: 100%;
+}
+
+.MainView_Title {
+  margin-left: 30px;
+  color: var(--main-color-LightBlue);
+}
+
+.MainView {
+  width: 100%;
+}
+
+
+.MainView_DashboardView {
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: 1000px 500px;
+  grid-template-rows: 500px 500px;
+  grid-column-gap: 30px;
+  grid-row-gap: 30px;
+}
+
+.MainView_DashboardView_TextBox {
+  grid-area: 1 / 1 / 2 / 2;
+  border-radius: 20px;
+
+}
+
+.MainView_DashboardView_PiChart {
+  grid-area: 1 / 2 / 2 / 3;
+  background-color: var(--main-color-LightGray);
+}
+
+.MainView_DashboardView_LineChart {
+  grid-area: 2 / 1 / 3 / 2;
+  background-color: var(--main-color-LightGray);
+}
+
+.MainView_DashboardView_Overview {
+  grid-area: 2 / 2 / 3 / 3;
+  background-color: var(--main-color-VeryLightGray);
+}

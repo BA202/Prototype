@@ -8,7 +8,7 @@ from langid.langid import LanguageIdentifier, model
 from Logger import Logger
 from Logger import LogSource
 from Logger import LogType
-
+from DataView import createDataView, createTextViewData
 
 app = flask.Flask(__name__)
 
@@ -146,6 +146,26 @@ def logging():
     ret = flask.Response('{"Done"}')
     ret.headers['Content-Type'] = 'application/json'
     return ret
+
+@app.route('/getViewData',methods = ['POST'])
+def getViewData():
+    newLog(LogType.Informational,LogSource.Backend ,f"{str(request.url)}\n{str(request.headers)}")
+    data = request.get_json(silent=False)
+    rawDBData = DBInteraction.getFilteredData(data)
+    ret = flask.Response(json.dumps(createDataView(rawDBData)))
+    ret.headers['Content-Type'] = 'application/json'
+    return ret
+
+@app.route('/getTextViewData', methods = ['POST'])
+def getTextViewData():
+    newLog(LogType.Informational,LogSource.Backend ,f"{str(request.url)}\n{str(request.headers)}")
+    data = request.get_json(silent=False)
+    rawDBData = DBInteraction.getFilteredData(data)
+    ret = flask.Response(json.dumps(createTextViewData(rawDBData,data["Start"],data["End"])))
+    ret.headers['Content-Type'] = 'application/json'
+    return ret
+    
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5003)

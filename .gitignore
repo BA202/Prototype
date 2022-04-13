@@ -136,3 +136,4 @@ dmypy.json
 .json
 
 TrainedModel_BERT_SentimentAnalysis_HotelReviews
+node_modules
