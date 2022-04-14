@@ -1,6 +1,7 @@
 import React from 'react';
 import './TextBox.css';
 import SingleSentence from './SingleSentence.js';
+import backendApi from './backendApi';
 
 class TextBox extends React.Component {
 
@@ -8,7 +9,8 @@ class TextBox extends React.Component {
     super(props);
     this.state = {
       currentPageNumber: 1,
-      totalPageNumbers: 100,
+      totalPageNumbers: 0,
+      currentViewData : []
     }
 
     this.PageTextBoxDidChange = this.PageTextBoxDidChange.bind(this);
@@ -17,73 +19,15 @@ class TextBox extends React.Component {
   }
 
   render() {
+    let sentenceView = []
+    for(let i in this.state.currentViewData)
+    {
+      sentenceView.push(<SingleSentence data={this.state.currentViewData[i]}></SingleSentence>)
+    }
     return (
       <div className="TextBox">
         <div className='TextBox_SingleSentencesView'>
-          <SingleSentence data={{
-            "Sentence": "This a sentence.",
-            "ParrentReview": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-            "Score": "Positive",
-            "Classification": "Location",
-            "Platform": "Trivago",
-            "Language": "English"
-          }}></SingleSentence>
-
-          <SingleSentence data={{
-            "Sentence": "This a sentence.",
-            "ParrentReview": "I am the original review",
-            "Score": "Negative",
-            "Classification": "Room",
-            "Platform": "Booking",
-            "Language": "German"
-          }}></SingleSentence>
-
-
-          <SingleSentence data={{
-            "Sentence": "This a sentence.",
-            "ParrentReview": "I am the original review",
-            "Score": "Neutral",
-            "Classification": "Food",
-            "Platform": "Google",
-            "Language": "English"
-          }}></SingleSentence>
-
-          <SingleSentence data={{
-            "Sentence": "This a sentence.",
-            "ParrentReview": "I am the original review",
-            "Score": "Positive",
-            "Classification": "Staff",
-            "Platform": "Google",
-            "Language": "English"
-          }}></SingleSentence>
-
-          <SingleSentence data={{
-            "Sentence": "This a sentence.",
-            "ParrentReview": "I am the original review",
-            "Score": "Positive",
-            "Classification": "ReasonForStay",
-            "Platform": "Google",
-            "Language": "English"
-          }}></SingleSentence>
-
-          <SingleSentence data={{
-            "Sentence": "This a sentence.",
-            "ParrentReview": "I am the original review",
-            "Score": "Positive",
-            "Classification": "GeneralUtility",
-            "Platform": "Google",
-            "Language": "English"
-          }}></SingleSentence>
-
-          <SingleSentence data={{
-            "Sentence": "This a sentence.",
-            "ParrentReview": "I am the original review",
-            "Score": "Positive",
-            "Classification": "GeneralUtility",
-            "Platform": "Google",
-            "Language": "English"
-          }}></SingleSentence>
-
+          {sentenceView}
         </div>
         <div className='TextBox_Controls'>
           <button className='TextBox_Btn_Controls' onClick={this.PageBtnDecreasePressed}>
@@ -106,6 +50,7 @@ class TextBox extends React.Component {
       this.setState({
         currentPageNumber: newNumber
       });
+      this.getCurrentViewData(newNumber);
     }
     if (e.target.value.length === 0) {
       this.setState({
@@ -120,6 +65,7 @@ class TextBox extends React.Component {
       this.setState({
         currentPageNumber: newNumber
       });
+      this.getCurrentViewData(newNumber);
     }
   }
 
@@ -129,8 +75,31 @@ class TextBox extends React.Component {
       this.setState({
         currentPageNumber: newNumber
       });
+      this.getCurrentViewData(newNumber);
     }
 
+  }
+
+  async getCurrentViewData(number)
+  {
+    let data = {
+      "Date": ["2012-04-20T00:00:0Z", "2023-04-23T23:59:0Z"],
+      "Category": ["Location","Room"],
+      "Score": ["Positive", "Negative"],
+      "ContentType": ["Review"],
+      "Language": ["English", "German"],
+      "Source": ["Online"],
+      "Hotel": ["Arosa"],
+      "PageNumber": number
+    };
+    let res = await backendApi.getTextViewData(data);
+    this.setState({currentViewData:res.Data});
+  }
+
+  newData(e) 
+  {
+      this.setState({totalPageNumbers: 1 + Math.floor(e.NumberOfSentences/7)});
+      this.getCurrentViewData(this.state.currentPageNumber);
   }
 }
 

@@ -5,13 +5,23 @@ import Footer from './Footer.js';
 import TextBox from './TextBox.js';
 import PiChart from './PiChart.js';
 import LineChart from './LineChart.js';
+import Overview from './Overview.js';
+import backendApi from './backendApi';
 
 class MainView extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
+      data : {}
     }
+    this.updateView = this.updateView.bind(this);
+    this.updateLineChart = React.createRef();
+    this.updatePiChart = React.createRef();
+    this.updateOverview = React.createRef();
+    this.updateTextField = React.createRef();
+    this.updateFilter = React.createRef();
+    this.getInitalData();
   }
 
   render() {
@@ -22,19 +32,19 @@ class MainView extends React.Component {
         </div>
 
         <div className='MainView_Content'>
-          <Filters></Filters>
+          <Filters onChange = {this.updateView} ref={this.updateFilter}></Filters>
           <div className='MainView_DashboardView'>
             <div className='MainView_DashboardView_TextBox'>
-              <TextBox></TextBox>
+              <TextBox ref ={this.updateTextField}></TextBox>
             </div>
             <div className='MainView_DashboardView_PiChart'>
-              <PiChart></PiChart>
+              <PiChart ref ={this.updatePiChart}></PiChart>
             </div>
             <div className='MainView_DashboardView_LineChart'>
-              <LineChart></LineChart>
+              <LineChart ref = {this.updateLineChart}></LineChart>
             </div>
             <div className='MainView_DashboardView_Overview'>
-              <h1>MainView_DashboardView_Overview</h1>
+              <Overview ref = {this.updateOverview}></Overview>
             </div>
           </div>
         </div>
@@ -42,6 +52,33 @@ class MainView extends React.Component {
         <Footer></Footer>
       </div>
     );
+  }
+
+  updateView(e){
+    this.setState({data:e});
+    this.updateLineChart.current.newData(e.LineChart);
+    this.updatePiChart.current.newData(e.PiChart);
+    this.updateOverview.current.newData(e.Overview);
+    this.updateTextField.current.newData(e.TextBox);
+    this.updateFilter.current.newData(e.SearchBox);
+
+  }
+
+
+  async getInitalData(){
+    let data = {
+      "Date":["2012-04-20T00:00:0Z","2023-04-23T23:59:0Z"],
+      "Category":["Location","Room","Food","Staff","ReasonForStay", "GeneralUtility","HotelOrganisation"],
+      "Score":["Positive","Negative","Neutral"],
+      "ContentType":["Review"],
+      "Language":["English","German"],
+      "Source":["Online"],
+      "Hotel":["Arosa"]
+  };
+
+    let res = await backendApi.getViewData(data);
+    this.updateView(res);
+    
   }
 }
 

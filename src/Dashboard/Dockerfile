@@ -1,11 +1,14 @@
 FROM node:alpine
 
-WORKDIR /hotel_dashboard
+WORKDIR /dashboard
 
-COPY /hotel_dashboard ./
+COPY /dashboard ./
 
 
 RUN npm install
+RUN npm install --save react-collapse
+RUN npm install react-plotly.js plotly.js
+RUN npm install react-day-picker date-fns
 
 #RUN npm install dotenv --save
 RUN npm run build

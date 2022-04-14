@@ -161,7 +161,7 @@ def getTextViewData():
     newLog(LogType.Informational,LogSource.Backend ,f"{str(request.url)}\n{str(request.headers)}")
     data = request.get_json(silent=False)
     rawDBData = DBInteraction.getFilteredData(data)
-    ret = flask.Response(json.dumps(createTextViewData(rawDBData,data["Start"],data["End"])))
+    ret = flask.Response(json.dumps(createTextViewData(rawDBData,data["PageNumber"])))
     ret.headers['Content-Type'] = 'application/json'
     return ret
     

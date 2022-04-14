@@ -8,36 +8,8 @@ class LineChart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      "PlotTitle":"LineChart",
-      "traces": [
-        {
-          "x": [1, 2, 3, 4],
-          "y": [10, 4, 1, 0],
-          'name': 'Positive',
-          'line': {
-            'color': '#73BF94',
-            'width': 3
-          }
-        },
-        {
-          "x": [1, 2, 3, 4],
-          "y": [12, 9, 15, 12],
-          'name': 'Negative',
-          'line': {
-            'color': '#DC505F',
-            'width': 3
-          }
-        },
-        {
-          "x": [1, 2, 3, 4],
-          "y": [19, 12, 14, 16],
-          'name': 'Neutral',
-          'line': {
-            'color': '#FFE782',
-            'width': 3
-          }
-        }
-      ]
+      "PlotTitle": "LineChart",
+      "traces": []
     }
   }
 
@@ -50,6 +22,10 @@ class LineChart extends React.Component {
         />
       </div>
     );
+  }
+
+  newData(e) {
+    this.setState({ traces: e.traces});
   }
 }
 

@@ -28,6 +28,7 @@
     border-radius: 3px;
     transition: all 0.3s ease 0s;
     transform: translateY(0px);
+    border-color: transparent;
 }
 
 .TextBox_Btn_Controls:hover{

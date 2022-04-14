@@ -8,16 +8,7 @@ class PiChart extends React.Component {
     super(props);
     this.state = {
       "PlotTitle":"PiChart",
-      "traces": [
-        {
-          "type": "sunburst",
-          "labels": ["Eve", "Cain", "Seth", "Enos", "Noam", "Abel", "Awan", "Enoch", "Azura"],
-          "parents": ["", "Eve", "Eve", "Seth", "Seth", "Eve", "Eve", "Awan", "Eve"],
-          "values": [65, 14, 12, 10, 2, 6, 6, 4, 4],
-          "leaf": { "opacity": 0.4 },
-          "marker": { "line": { "width": 2 } },
-          "branchvalues": 'total'
-        }]
+      "traces": []
     }
   }
 
@@ -30,6 +21,11 @@ class PiChart extends React.Component {
         />
       </div>
     );
+  }
+
+  newData(e) 
+  {
+      this.setState({traces:e});
   }
 }
 
