@@ -1,5 +1,5 @@
 import json
-
+import numpy as np
 
 def createPiChartData(piChartData):
     ids =[]
@@ -66,13 +66,17 @@ def createDataView(dbData):
 
     }
 
-    
+    dictOfEntriesByDate = {}
 
     for key in dbData['data']['Reviews']:
         for keySen in dbData['data']['Reviews'][key]['Sentences']:
             for keyClass in dbData['data']['Reviews'][key]['Sentences'][keySen]['Classifications']:
                 piChartData[dbData['data']['Reviews'][key]['Sentences'][keySen]['Classifications'][keyClass]["Classification"]][0] += 1
                 numberOfResults += 1
+
+                if not dbData['data']['Reviews'][key]['CreationTime'] in dictOfEntriesByDate.keys():
+                    dictOfEntriesByDate[dbData['data']['Reviews'][key]['CreationTime']] = {"Positive":0,'Negative':0,'Neutral':0}
+                dictOfEntriesByDate[dbData['data']['Reviews'][key]['CreationTime']][dbData['data']['Reviews'][key]['Sentences'][keySen]['Classifications'][keyClass]["Score"]] += 1
 
                 if dbData['data']['Reviews'][key]['Sentences'][keySen]['Classifications'][keyClass]["Score"] == "Positive":
                     piChartData[dbData['data']['Reviews'][key]['Sentences'][keySen]['Classifications'][keyClass]["Classification"]][1] += 1
@@ -81,8 +85,17 @@ def createDataView(dbData):
                 else:
                     piChartData[dbData['data']['Reviews'][key]['Sentences'][keySen]['Classifications'][keyClass]["Classification"]][3] += 1
 
-
     
+    listOfDates = []
+    positive =  []
+    Negative =  []
+    Neutral =  []
+
+    for key in sorted(list(dictOfEntriesByDate.keys())):
+        listOfDates.append(key)
+        positive.append(dictOfEntriesByDate[key]['Positive'])
+        Negative.append(dictOfEntriesByDate[key]['Negative'])
+        Neutral.append(dictOfEntriesByDate[key]['Neutral'])
 
     dataView ={
         "PiChart":[
@@ -92,16 +105,28 @@ def createDataView(dbData):
         "LineChart":{
             "traces" : [
                     {
-                    "x": [1, 2, 3, 4],
-                    "y": [10, 4, 1, 0]
+                    "x": listOfDates,
+                    "y": positive,
+                    'line': {'shape': 'line'},
+                    'marker': {'color': '#73BF94','size': 5},
+                    'mode': 'lines+markers',
+                    'name': 'Positive'
                     },
                     {
-                    "x": [1, 2, 3, 4],
-                    "y": [12, 9, 15, 12]
+                    "x": listOfDates,
+                    "y": Negative,
+                    'line': {'shape': 'line'},
+                    'marker': {'color': '#DC505F','size': 5},
+                    'mode': 'lines+markers',
+                    'name': 'Negative'
                     },
                     {
-                    "x": [1, 2, 3, 4],
-                    "y": [19, 12, 15, 16]
+                    "x": listOfDates,
+                    "y": Neutral,
+                    'line': {'shape': 'line'},
+                    'marker': {'color': '#FFE782','size': 5},
+                    'mode': 'lines+markers',
+                    'name': 'Neutral'
                     }]
         },
         "TextBox":{
@@ -110,12 +135,20 @@ def createDataView(dbData):
         "SearchBox":{
             "Date": [2021,2023],
             "Category": ["Location","Room","Food","Staff","ReasonForStay", "GeneralUtility","HotelOrganisation"],
-            "Score": ["Positive","Negative"],
+            "Score": ["Positive","Negative","Neutral"],
             "Language": ["German","English"],
             "Source": ["Trivago","Google","Online"]
         },
         "Overview":{
-             "Overview": [numberOfResults]
+             "Total Results": [numberOfResults,{
+        "Location":[piChartData['Location'][0],{'Positive': piChartData['Location'][1],'Negative':piChartData['Location'][2],'Neutral':piChartData['Location'][3]}],
+        "Room":[piChartData['Room'][0],{'Positive': piChartData['Room'][1],'Negative':piChartData['Room'][2],'Neutral':piChartData['Room'][3]}],
+        "Food":[piChartData['Food'][0],{'Positive': piChartData['Food'][1],'Negative':piChartData['Food'][2],'Neutral':piChartData['Food'][3]}],
+        "Staff":[piChartData['Staff'][0],{'Positive': piChartData['Staff'][1],'Negative':piChartData['Staff'][2],'Neutral':piChartData['Staff'][3]}],
+        "ReasonForStay":[piChartData['ReasonForStay'][0],{'Positive': piChartData['ReasonForStay'][1],'Negative':piChartData['ReasonForStay'][2],'Neutral':piChartData['ReasonForStay'][3]}],
+        "GeneralUtility":[piChartData['GeneralUtility'][0],{'Positive': piChartData['GeneralUtility'][1],'Negative':piChartData['GeneralUtility'][2],'Neutral':piChartData['GeneralUtility'][3]}],
+        "HotelOrganisation":[piChartData['HotelOrganisation'][0],{'Positive': piChartData['HotelOrganisation'][1],'Negative':piChartData['HotelOrganisation'][2],'Neutral':piChartData['HotelOrganisation'][3]}],
+    }],
         }
     } 
     return dataView

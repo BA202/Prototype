@@ -10,7 +10,16 @@ class TextBox extends React.Component {
     this.state = {
       currentPageNumber: 1,
       totalPageNumbers: 0,
-      currentViewData : []
+      currentViewData : [],
+      requestData : {
+        "Date": ["2012-04-20T00:00:0Z", "2023-04-23T23:59:0Z"],
+        "Category": ["Location", "Room", "Food", "Staff", "ReasonForStay", "GeneralUtility", "HotelOrganisation"],
+        "Score": ["Positive", "Negative", "Neutral"],
+        "ContentType": ["Review"],
+        "Language": ["English", "German"],
+        "Source": ["Online"],
+        "Hotel": ["Arosa"]
+      }
     }
 
     this.PageTextBoxDidChange = this.PageTextBoxDidChange.bind(this);
@@ -82,16 +91,9 @@ class TextBox extends React.Component {
 
   async getCurrentViewData(number)
   {
-    let data = {
-      "Date": ["2012-04-20T00:00:0Z", "2023-04-23T23:59:0Z"],
-      "Category": ["Location","Room"],
-      "Score": ["Positive", "Negative"],
-      "ContentType": ["Review"],
-      "Language": ["English", "German"],
-      "Source": ["Online"],
-      "Hotel": ["Arosa"],
-      "PageNumber": number
-    };
+    console.log(this.state.requestData);
+    let data = this.state.requestData;
+    data["PageNumber"] = number;
     let res = await backendApi.getTextViewData(data);
     this.setState({currentViewData:res.Data});
   }
@@ -100,6 +102,11 @@ class TextBox extends React.Component {
   {
       this.setState({totalPageNumbers: 1 + Math.floor(e.NumberOfSentences/7)});
       this.getCurrentViewData(this.state.currentPageNumber);
+  }
+
+  newRequestData(e)
+  {
+    this.setState({requestData:e});
   }
 }
 

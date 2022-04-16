@@ -5,15 +5,37 @@
     width: 50%;
     border-style: solid;
     text-align: left;
+    transform: translateX(200px);
 }
 
 .Overview_TotNumberOfReviews {
     font-weight: bold;
     font-size: 25px;
+    margin: 0px;
+    padding: 0px;
 
 }
 
 .Overview_Platform {
     font-weight: bold;
     margin-left: 20px;
+    margin: 0px;
+    padding: 0px;
+}
+
+.Overview_Minor{
+    font-size: 10px;
+    margin: 0px;
+    padding: 0px;
+    margin-left: 25px;
+    
+}
+
+td{
+    margin: 0px;
+    padding: 0px;
+}
+ 
+.OverView_RightAlign{
+    text-align: right;
 }

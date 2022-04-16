@@ -12,7 +12,6 @@ class Overview extends React.Component {
 
     render() {
         let currentBtnBackgroundColor = "Demo_BackgroundGreen";
-        const cars = ['Audi', 'Volovo', 'Porsche'];
         let fullOverviewList = [];
         for (const allReviews in this.state.dict) {
             for (var i = 0; i < this.state.dict[allReviews].length; i++) {
@@ -24,8 +23,8 @@ class Overview extends React.Component {
                             if (typeof this.state.dict[allReviews][i][platForm][j] === 'object') {
                                 for (const posNeg in this.state.dict[allReviews][i][platForm][j]) {
                                     posNegList.push(<tr>
-                                        <td><label>{posNeg}</label></td>
-                                        <td><label>{this.state.dict[allReviews][i][platForm][j][posNeg]}</label></td>
+                                        <td><label className='Overview_Minor'>{posNeg}</label></td>
+                                        <td><label className='Overview_Minor'>{this.state.dict[allReviews][i][platForm][j][posNeg]}</label></td>
                                     </tr>)
                                 }
                                 platformList.push(<tr>
@@ -35,7 +34,7 @@ class Overview extends React.Component {
                             else {
                                 platformList.push(<tr>
                                     <td><label className='Overview_Platform'>{platForm}:</label></td>
-                                    <td><label>{this.state.dict[allReviews][i][platForm][j]}</label></td>
+                                    <td className='OverView_RightAlign'><label >{this.state.dict[allReviews][i][platForm][j]}</label></td>
                                 </tr>)
                             }
                         }
@@ -47,7 +46,7 @@ class Overview extends React.Component {
                 else {
                     fullOverviewList.push(<tr>
                         <td><label className='Overview_TotNumberOfReviews'>{allReviews}</label></td>
-                        <td><label>{this.state.dict[allReviews][i]}</label></td>
+                        <td><label className='OverView_RightAlign'>{this.state.dict[allReviews][i]}</label></td>
                     </tr>)
                 }
             }

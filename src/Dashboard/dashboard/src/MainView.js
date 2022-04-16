@@ -13,9 +13,11 @@ class MainView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data : {}
+      data: {},
+
     }
     this.updateView = this.updateView.bind(this);
+    this.UpdateRequestData = this.UpdateRequestData.bind(this);
     this.updateLineChart = React.createRef();
     this.updatePiChart = React.createRef();
     this.updateOverview = React.createRef();
@@ -32,19 +34,19 @@ class MainView extends React.Component {
         </div>
 
         <div className='MainView_Content'>
-          <Filters onChange = {this.updateView} ref={this.updateFilter}></Filters>
+          <Filters onChange={this.updateView} onRequestChange={this.UpdateRequestData} ref={this.updateFilter}></Filters>
           <div className='MainView_DashboardView'>
             <div className='MainView_DashboardView_TextBox'>
-              <TextBox ref ={this.updateTextField}></TextBox>
+              <TextBox ref={this.updateTextField}></TextBox>
             </div>
             <div className='MainView_DashboardView_PiChart'>
-              <PiChart ref ={this.updatePiChart}></PiChart>
+              <PiChart ref={this.updatePiChart}></PiChart>
             </div>
             <div className='MainView_DashboardView_LineChart'>
-              <LineChart ref = {this.updateLineChart}></LineChart>
+              <LineChart ref={this.updateLineChart}></LineChart>
             </div>
             <div className='MainView_DashboardView_Overview'>
-              <Overview ref = {this.updateOverview}></Overview>
+              <Overview ref={this.updateOverview}></Overview>
             </div>
           </div>
         </div>
@@ -54,8 +56,8 @@ class MainView extends React.Component {
     );
   }
 
-  updateView(e){
-    this.setState({data:e});
+  updateView(e) {
+    this.setState({ data: e });
     this.updateLineChart.current.newData(e.LineChart);
     this.updatePiChart.current.newData(e.PiChart);
     this.updateOverview.current.newData(e.Overview);
@@ -64,22 +66,27 @@ class MainView extends React.Component {
 
   }
 
+  UpdateRequestData(e) {
+    this.updateTextField.current.newRequestData(e);
+  }
 
-  async getInitalData(){
+
+  async getInitalData() {
     let data = {
-      "Date":["2012-04-20T00:00:0Z","2023-04-23T23:59:0Z"],
-      "Category":["Location","Room","Food","Staff","ReasonForStay", "GeneralUtility","HotelOrganisation"],
-      "Score":["Positive","Negative","Neutral"],
-      "ContentType":["Review"],
-      "Language":["English","German"],
-      "Source":["Online"],
-      "Hotel":["Arosa"]
-  };
+      "Date": ["2022-04-1T00:00:0Z", "2022-04-16T23:59:0Z"],
+      "Category": ["Location", "Room", "Food", "Staff", "ReasonForStay", "GeneralUtility", "HotelOrganisation"],
+      "Score": ["Positive", "Negative", "Neutral"],
+      "ContentType": ["Review"],
+      "Language": ["English", "German"],
+      "Source": ["Online"],
+      "Hotel": ["Arosa"]
+    };
 
     let res = await backendApi.getViewData(data);
     this.updateView(res);
-    
+
+
+    }
   }
-}
 
 export default MainView;

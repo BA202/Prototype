@@ -4,6 +4,8 @@ import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 import { Collapse } from 'react-collapse';
 import backendApi from './backendApi';
+import { sub } from 'date-fns';
+
 
 
 class Filters extends React.Component {
@@ -11,28 +13,19 @@ class Filters extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedData: { 'from': new Date('April 03, 2022 03:24:00'), 'to': new Date('April 05, 2022 03:24:00') },
+      selectedData: { 'from': new Date('April 01, 2022 03:24:00'), 'to': new Date('April 16, 2022 03:24:00') },
       filterState: {
         "Category": {
-          "Location": false,
-          "Room": false,
-          "Food": false,
-          "Staff": false,
-          "ReasonForStay": false,
-          "GeneralUtility": false,
-          "HotelOrganisation": false
+         
         },
         "Score": {
-          "Positive": false,
-          "Negative": false
+         
         },
         "Language": {
-          "German": false,
-          "English": false
+         
         },
         "Source": {
-          "Trivago": false,
-          "Google": false
+        
         }
       },
       dateExpanded: false,
@@ -127,7 +120,7 @@ class Filters extends React.Component {
       <div className="Filters">
         <div className='Filters_MainGrid'>
           <div className='Filters_Div_Date'>
-            {showDate} <br></br>
+            <br></br>
             <input className='Filter_Button' type="button" id="dateExpanded" onClick={this.startDateExpand} value="Date"></input>
           </div>
           <div className='Filters_Div_Category'>
@@ -201,6 +194,7 @@ class Filters extends React.Component {
     try {
       if (e.from.toString().length > 0 && e.to.toString().length > 0) {
         isValid = true;
+        this.updateView(this.state.filterState,e);
       }
     }
     catch {
@@ -211,6 +205,7 @@ class Filters extends React.Component {
       selectedData: e,
       validDate: isValid
     })
+    
   }
 
   startDateExpand(e) {
@@ -220,36 +215,56 @@ class Filters extends React.Component {
     });
   }
 
-  async checkBoxChanged(e) {
-    let newVlaue = this.state.filterState;
-    newVlaue[e.target.className][e.target.id] = !newVlaue[e.target.className][e.target.id]
+  checkBoxChanged(e) {
+    let newValue = this.state.filterState;
+    newValue[e.target.className][e.target.id] = !newValue[e.target.className][e.target.id]
     this.setState({
-      filterState: newVlaue
+      filterState: newValue
     });
+    this.updateView(newValue,this.state.selectedData);
+  }
 
-
-
+  async updateView(filters,date){
     let data = {
-      "Date": ["2012-04-20T00:00:0Z", "2023-04-23T23:59:0Z"],
-      "Category": ["Location","Room"],
-      "Score": ["Positive", "Negative"],
+      "Date": [date.from.toISOString(), date.to.toISOString()],
+      "Category": [],
+      "Score": [],
       "ContentType": ["Review"],
-      "Language": ["English", "German"],
-      "Source": ["Online"],
-      "Hotel": ["Arosa"]
+      "Language": [],
+      "Source": [],
+      "Hotel": []
     };
 
-    for(let key in this.state.filterState)
-    {
-      console.log(key);
+    for (let key in filters) {
+      for (let subKey in filters[key]) {
+        if (filters[key][subKey])
+        {
+          data[key].push(subKey);
+        }
+      }
     }
+
+    this.props.onRequestChange(data);
 
     let res = await backendApi.getViewData(data);
     this.props.onChange(res);
   }
 
   newData(e) {
-    this.setState({ data: e });
+
+    let filterStatesOld = this.state.filterState;
+    for (let key in e) {
+      if (key !== "Date") {
+        for (let i in e[key]) {
+          if(!(e[key][i] in filterStatesOld[key]))
+          {
+            filterStatesOld[key][e[key][i]] = true;
+          }
+        }
+      }
+    }
+    this.setState({ data: e,
+    filterStatesOld: filterStatesOld });
   }
 }
 
