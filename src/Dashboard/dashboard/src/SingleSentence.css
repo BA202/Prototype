@@ -141,3 +141,8 @@
     border-color: var(--category-color-Light-HotelOrganisation);
     transition: all 0.3s ease 0s;
 }
+
+
+.SingleSentence_Red{
+    font-weight: bold;
+}

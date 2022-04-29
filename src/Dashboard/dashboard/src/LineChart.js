@@ -18,7 +18,7 @@ class LineChart extends React.Component {
       <div className="LineChart">
         <Plot
           data={this.state.traces}
-          layout={{ width: 1200, height: 700, title: this.state.PlotTitle }}
+          layout={{ width: this.props.width, height: 700, title: this.state.PlotTitle }}
         />
       </div>
     );

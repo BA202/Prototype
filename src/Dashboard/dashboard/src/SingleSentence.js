@@ -1,5 +1,6 @@
 import React from 'react';
 import './SingleSentence.css';
+import LevenshteinDistance from './LevenshteinDistance.js';
 import { Collapse } from 'react-collapse';
 
 
@@ -14,6 +15,12 @@ class SingleSentence extends React.Component {
   }
 
   render() {
+
+    let splitIndex = LevenshteinDistance.findInString(this.props.data.ParrentReview,this.props.data.Sentence);
+    console.log(splitIndex);
+    let startPart = this.props.data.ParrentReview.slice(0,splitIndex);
+    let sentenceOriginal = this.props.data.ParrentReview.slice(splitIndex,splitIndex+this.props.data.Sentence.length);
+    let end = this.props.data.ParrentReview.slice(splitIndex+this.props.data.Sentence.length);
     return (
       <div className="SingleSentence_MainView">
         <div className="SingleSentence">
@@ -35,7 +42,9 @@ class SingleSentence extends React.Component {
         </div>
         <Collapse isOpened={this.state.isExpanded}>
           <div className='SingleSentence_ParentReview_Box'>
-            <label className="SingleSentence_ParentReview">{this.props.data.ParrentReview}</label>
+            <label className="SingleSentence_ParentReview">{startPart}</label>
+            <label className="SingleSentence_ParentReview SingleSentence_Red">{sentenceOriginal}</label>
+            <label className="SingleSentence_ParentReview">{end}</label>
           </div>
         </Collapse>
       </div>

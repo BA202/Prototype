@@ -19,6 +19,7 @@ class MainView extends React.Component {
     this.updateView = this.updateView.bind(this);
     this.UpdateRequestData = this.UpdateRequestData.bind(this);
     this.updateLineChart = React.createRef();
+    this.updateLineChartKat = React.createRef();
     this.updatePiChart = React.createRef();
     this.updateOverview = React.createRef();
     this.updateTextField = React.createRef();
@@ -43,11 +44,12 @@ class MainView extends React.Component {
               <PiChart ref={this.updatePiChart}></PiChart>
             </div>
             <div className='MainView_DashboardView_LineChart'>
-              <LineChart ref={this.updateLineChart}></LineChart>
+              <LineChart ref={this.updateLineChart} width={1200}></LineChart>
             </div>
             <div className='MainView_DashboardView_Overview'>
               <Overview ref={this.updateOverview}></Overview>
             </div>
+            <LineChart ref={this.updateLineChartKat} width={1500}></LineChart>
           </div>
         </div>
 
@@ -63,7 +65,7 @@ class MainView extends React.Component {
     this.updateOverview.current.newData(e.Overview);
     this.updateTextField.current.newData(e.TextBox);
     this.updateFilter.current.newData(e.SearchBox);
-
+    this.updateLineChartKat.current.newData(e.LineChartKat);
   }
 
   UpdateRequestData(e) {

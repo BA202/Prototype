@@ -67,6 +67,7 @@ def createDataView(dbData):
     }
 
     dictOfEntriesByDate = {}
+    dictOfKatsByDate = {}
 
     for key in dbData['data']['Reviews']:
         for keySen in dbData['data']['Reviews'][key]['Sentences']:
@@ -77,6 +78,9 @@ def createDataView(dbData):
                 if not dbData['data']['Reviews'][key]['CreationTime'] in dictOfEntriesByDate.keys():
                     dictOfEntriesByDate[dbData['data']['Reviews'][key]['CreationTime']] = {"Positive":0,'Negative':0,'Neutral':0}
                 dictOfEntriesByDate[dbData['data']['Reviews'][key]['CreationTime']][dbData['data']['Reviews'][key]['Sentences'][keySen]['Classifications'][keyClass]["Score"]] += 1
+
+
+
 
                 if dbData['data']['Reviews'][key]['Sentences'][keySen]['Classifications'][keyClass]["Score"] == "Positive":
                     piChartData[dbData['data']['Reviews'][key]['Sentences'][keySen]['Classifications'][keyClass]["Classification"]][1] += 1
@@ -103,6 +107,33 @@ def createDataView(dbData):
                 ]
         ,
         "LineChart":{
+            "traces" : [
+                    {
+                    "x": listOfDates,
+                    "y": positive,
+                    'line': {'shape': 'line'},
+                    'marker': {'color': '#73BF94','size': 5},
+                    'mode': 'lines+markers',
+                    'name': 'Positive'
+                    },
+                    {
+                    "x": listOfDates,
+                    "y": Negative,
+                    'line': {'shape': 'line'},
+                    'marker': {'color': '#DC505F','size': 5},
+                    'mode': 'lines+markers',
+                    'name': 'Negative'
+                    },
+                    {
+                    "x": listOfDates,
+                    "y": Neutral,
+                    'line': {'shape': 'line'},
+                    'marker': {'color': '#FFE782','size': 5},
+                    'mode': 'lines+markers',
+                    'name': 'Neutral'
+                    }]
+        },
+        "LineChartKat":{
             "traces" : [
                     {
                     "x": listOfDates,
