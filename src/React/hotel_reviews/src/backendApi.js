@@ -12,6 +12,7 @@ class backendApi extends basicRestRequests
       let res = await this.detectLanguage(str);
         let url = "http://"+ window.location.hostname + this.#baseUrl + "addNewReview";
         console.log(url);
+        console.log(res);
         let json = {
           "review": str,
           "setType": "UserInput",
@@ -52,6 +53,7 @@ class backendApi extends basicRestRequests
         let res = await this.detectLanguage(str);
         let url = "http://"+ window.location.hostname + this.#baseUrl + "classifyReview";
         console.log(url);
+        console.log(res);
         let json = {
           "review": str,
           "lan":res

@@ -9,6 +9,7 @@ class NewReview extends React.Component {
         super(props);
         this.state ={
             newReviewText : "",
+            detectedLanguage : ""
         }
         this.textInputChange = this.textInputChange.bind(this);
         this.submitPressed = this.submitPressed.bind(this);
@@ -21,16 +22,34 @@ class NewReview extends React.Component {
             <div className='NewReviewField'>
                 <textarea id= "TextFieldNewReview" className ="TextFieldNewReview" value = {this.state.newReviewText} placeholder ="enter new review" onChange = {this.textInputChange} cols="40" rows="7"></textarea>
                 <input className ="Btn_Submit" type ="Button" value ="Submit" onClick={this.submitPressed} readOnly></input>
+                <label className="lblLanguageDetected">{this.state.detectedLanguage}</label>
             </div>
         </div>
       );
     }
 
-    textInputChange(e)
-    {
+    async textInputChange(e)
+    {    
         this.setState({
             newReviewText: e.target.value
           });
+          if (e.target.value.length === 10)
+          {
+            let res = await backendApi.detectLanguage(e.target.value);
+            console.log(res);
+            if (this.state.newReviewText.length >= 10)
+            {
+              this.setState({
+                detectedLanguage: res
+              });
+            }
+          }
+          else if (e.target.value.length < 10)
+          {
+            this.setState({
+              detectedLanguage: ""
+            });
+          }
     }
 
     async submitPressed(e)

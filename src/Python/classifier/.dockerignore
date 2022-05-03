@@ -1,0 +1,5 @@
+bert-base-german-cased_German_classification
+bert-base-german-cased_German_sentiment
+bert-base-uncased_English_classification
+bert-base-uncased_English_sentiment
+TrainedModel_BERT_SentimentAnalysis_HotelReviews

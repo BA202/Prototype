@@ -136,28 +136,34 @@ def createDataView(dbData):
         "LineChartKat":{
             "traces" : [
                     {
-                    "x": listOfDates,
-                    "y": positive,
-                    'line': {'shape': 'line'},
-                    'marker': {'color': '#73BF94','size': 5},
-                    'mode': 'lines+markers',
-                    'name': 'Positive'
+                    "x": [key for key in piChartData.keys() if piChartData[key][0]> 0 and piChartData[key][1]> 0],
+                    "y": [piChartData[key][1] for key in piChartData.keys() if piChartData[key][0]> 0 and piChartData[key][1]> 0],
+                    'name': 'Positive',
+                    'type': 'bar',
+                    'marker': {
+                        'color': '#73BF94',
+                        'opacity': 1
+                    }
                     },
                     {
-                    "x": listOfDates,
-                    "y": Negative,
-                    'line': {'shape': 'line'},
-                    'marker': {'color': '#DC505F','size': 5},
-                    'mode': 'lines+markers',
-                    'name': 'Negative'
+                    "x": [key for key in piChartData.keys() if piChartData[key][0]> 0 and piChartData[key][2]> 0],
+                    "y": [piChartData[key][2] for key in piChartData.keys() if piChartData[key][0]> 0 and piChartData[key][2]> 0],
+                    'name': 'Negative',
+                    'type': 'bar',
+                    'marker': {
+                        'color': '#DC505F',
+                        'opacity': 1
+                    }
                     },
                     {
-                    "x": listOfDates,
-                    "y": Neutral,
-                    'line': {'shape': 'line'},
-                    'marker': {'color': '#FFE782','size': 5},
-                    'mode': 'lines+markers',
-                    'name': 'Neutral'
+                    "x": [key for key in piChartData.keys() if piChartData[key][0]> 0 and piChartData[key][3]> 0],
+                    "y": [piChartData[key][3] for key in piChartData.keys() if piChartData[key][0]> 0 and piChartData[key][3]> 0],
+                    'name': 'Neutral',
+                    'type': 'bar',
+                    'marker': {
+                        'color': '#FFE782',
+                        'opacity': 1
+                    }
                     }]
         },
         "TextBox":{

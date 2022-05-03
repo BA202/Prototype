@@ -5,7 +5,7 @@ import flask
 from flask import request
 import DBInteraction 
 from DataHandler import DataHandler
-from SentimentAnalysisPipeline import SentimentAnalysisPipeline
+from PipelineInterface import PipelineInterface
 from Logger import Logger
 from Logger import LogSource
 from Logger import LogType
@@ -20,11 +20,12 @@ def classification(str,lan):
     print("Classifying:", str)
     if lan == None:
         raise ValueError
-    predScore, confidence = scoreClassifier.classify(str)
     if lan == "English":
-        predCat, CatConf = categoryClassifierEng.classify(str)
+        predCat, CatConf = classificationEnglish.classify(str)
+        predScore, confidence = scoreClassifierEnglish.classify(str)
     else:
-        predCat, CatConf = categoryClassifierDe.classify(str)
+        predCat, CatConf = classificationGerman.classify(str)
+        predScore, confidence = scoreClassifierGerman.classify(str)
 
     return [[predScore,round(confidence, 4),predCat,round(CatConf, 4),"Review", 1]]
 
@@ -74,9 +75,9 @@ def classify():
 
 if __name__ == '__main__':
     logger = Logger()
-
-    scoreClassifier = SentimentAnalysisPipeline()
-    categoryClassifierEng = SupportVectorMachine("English","")
-    categoryClassifierDe = SupportVectorMachine("German","")
+    scoreClassifierGerman = PipelineInterface("Tobias/bert-base-german-cased_German_Hotel_sentiment")
+    scoreClassifierEnglish = PipelineInterface("Tobias/bert-base-uncased_English_Hotel_sentiment")
+    classificationGerman = PipelineInterface("Tobias/bert-base-german-cased_German_Hotel_classification")
+    classificationEnglish = PipelineInterface("Tobias/bert-base-uncased_English_Hotel_classification")
 
     app.run(host='0.0.0.0', port=5001)

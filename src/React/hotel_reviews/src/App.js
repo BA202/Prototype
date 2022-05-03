@@ -8,7 +8,7 @@ function App() {
       </header>
       <div>
               <h1 className='Titel'>Hotel Reviews</h1>
-              <h3 className='versionNumber'>Version: 1.2.1</h3>
+              <h3 className='versionNumber'>Version: 2.0.0</h3>
               <MainView></MainView>
       </div>
     </div>

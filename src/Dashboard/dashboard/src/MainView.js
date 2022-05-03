@@ -7,6 +7,7 @@ import PiChart from './PiChart.js';
 import LineChart from './LineChart.js';
 import Overview from './Overview.js';
 import backendApi from './backendApi';
+import BarChart from './BarChart';
 
 class MainView extends React.Component {
 
@@ -20,6 +21,7 @@ class MainView extends React.Component {
     this.UpdateRequestData = this.UpdateRequestData.bind(this);
     this.updateLineChart = React.createRef();
     this.updateLineChartKat = React.createRef();
+    this.updateFilter = React.createRef();
     this.updatePiChart = React.createRef();
     this.updateOverview = React.createRef();
     this.updateTextField = React.createRef();
@@ -49,7 +51,7 @@ class MainView extends React.Component {
             <div className='MainView_DashboardView_Overview'>
               <Overview ref={this.updateOverview}></Overview>
             </div>
-            <LineChart ref={this.updateLineChartKat} width={1500}></LineChart>
+            <BarChart ref={this.updateLineChartKat} width={1500}></BarChart>
           </div>
         </div>
 

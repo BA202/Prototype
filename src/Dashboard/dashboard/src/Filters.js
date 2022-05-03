@@ -225,8 +225,11 @@ class Filters extends React.Component {
   }
 
   async updateView(filters,date){
+    let startTime = new Date(date.to);
+    var followingDay = new Date(startTime.getTime() + 86400000);
+
     let data = {
-      "Date": [date.from.toISOString(), date.to.toISOString()],
+      "Date": [date.from.toISOString(), followingDay.toISOString()],
       "Category": [],
       "Score": [],
       "ContentType": ["Review"],
@@ -234,7 +237,7 @@ class Filters extends React.Component {
       "Source": [],
       "Hotel": []
     };
-
+    console.log(data);
     for (let key in filters) {
       for (let subKey in filters[key]) {
         if (filters[key][subKey])

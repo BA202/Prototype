@@ -14,6 +14,7 @@ class Demo extends React.Component {
       newReviewText: "",
       exampleData: null,
       indexInExampleData: 0,
+      detectedLanguage : "",
     }
     this.textInputChange = this.textInputChange.bind(this);
     this.submitPressed = this.submitPressed.bind(this);
@@ -146,21 +147,40 @@ class Demo extends React.Component {
     return (
       <div className="NewReview">
         <div className='NewReviewField'>
-          <textarea id="TextFieldNewReview" className="TextFieldNewReview" value={this.state.newReviewText} placeholder="enter new review" onChange={this.textInputChange} cols="40" rows="7"></textarea>
+          <textarea id="TextFieldNewReview" className="TextFieldNewReview paddingBottom" value={this.state.newReviewText} placeholder="enter new review" onChange={this.textInputChange} cols="40" rows="7"></textarea>
           <input className="Btn_Submit" type="Button" value="Submit" onClick={this.submitPressed} readOnly></input>
           <label className="lblExample">get an</label>
           <input className="Btn_Example" type="Button" value="Example" onClick={this.examplePressed} readOnly></input>
           <label className="lblExample lblExampleSecond">Review</label>
+          <label className="lblLanguageDetected">{this.state.detectedLanguage}</label>
         </div>
         {response}
       </div>
     );
   }
 
-  textInputChange(e) {
+  async textInputChange(e) {
+    console.log(e.target.value.length);
     this.setState({
       newReviewText: e.target.value
     });
+    if (e.target.value.length === 10)
+    {
+      let res = await backendApi.detectLanguage(e.target.value);
+      console.log(res);
+      if (this.state.newReviewText.length >= 10)
+      {
+        this.setState({
+          detectedLanguage: res
+        });
+      }
+    }
+    else if (e.target.value.length < 10)
+    {
+      this.setState({
+        detectedLanguage: ""
+      });
+    }
   }
 
   async submitPressed(e) {

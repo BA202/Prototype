@@ -137,3 +137,8 @@ dmypy.json
 
 TrainedModel_BERT_SentimentAnalysis_HotelReviews
 node_modules
+
+bert-base-german-cased_German_sentiment
+bert-base-uncased_English_sentiment
+bert-base-german-cased_German_classification
+bert-base-uncased_English_classification

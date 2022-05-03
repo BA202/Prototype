@@ -147,7 +147,7 @@
 {
     
     opacity: 1;
-    transform:translateY(10px)translateX(-100px);
+    transform:translateY(10px) translateX(-100px);
 
 }
 
@@ -160,7 +160,23 @@
 {
     
     opacity: 1;
-    transform:translateY(30px)translateX(-100px);
+    transform:translateY(30px) translateX(-100px);
 
 }
 
+.lblLanguageDetected
+{   
+    position:absolute;
+    transform:translateY(144px) translateX(487px);
+    opacity: 0.9;
+    background-color: white;
+    color: #223D73;
+    border-radius: 2px;
+    padding: 1px;
+}
+
+.paddingBottom
+{
+    padding-bottom: 0px;
+    
+}
