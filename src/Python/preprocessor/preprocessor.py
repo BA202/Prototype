@@ -25,7 +25,8 @@ def preprocess_thread(id,lan):
     print(cleanText)
     for sen in cleanText:
         senID = DBInteraction.addNewsentence(sen,id)[0][0]
-        response = requests.request("GET", url + "/?id=" +str(senID)+f"&lan='{lan}'")
+        print("PreprocessorOutput:",lan)
+        response = requests.request("GET", url + "/?id=" +str(senID)+f"&lan={lan}")
         print(response.text)
 
 
@@ -34,6 +35,7 @@ def index():
     logger.newLog(LogType.Informational,LogSource.Classifier ,f"{str(request.url)}\n{str(request.headers)}")
     id = flask.request.args.get("id")
     lan = flask.request.args.get("lan")
+    print("PreprocessorInput:",lan)
     asyncPreprocess = threading.Thread(target=preprocess_thread, args=(id,lan,))
     asyncPreprocess.start()
     return "Preprocessing"

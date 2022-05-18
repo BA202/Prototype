@@ -18,12 +18,14 @@ app = flask.Flask(__name__)
 
 def classification(str,lan):
     print("Classifying:", str)
+    print("Lan",lan)
     if lan == None:
         raise ValueError
     if lan == "English":
         predCat, CatConf = classificationEnglish.classify(str)
         predScore, confidence = scoreClassifierEnglish.classify(str)
     else:
+        print("German Classification")
         predCat, CatConf = classificationGerman.classify(str)
         predScore, confidence = scoreClassifierGerman.classify(str)
 
@@ -42,6 +44,7 @@ def index():
     id = flask.request.args.get("id")
     lan = flask.request.args.get("lan")
     print("id form Preproc",id)
+    print("ClassifierInput:",lan)
     asyncClassifying = threading.Thread(target=Classifying_thread, args=(id,lan,))
     asyncClassifying.start()
     return "Classifying"

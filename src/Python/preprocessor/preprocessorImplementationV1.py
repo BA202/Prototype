@@ -13,9 +13,12 @@ def cleanUp(review):
             str
 
     """
+    emoji_regex = re.compile('[\U00010000-\U0010ffff]', flags=re.UNICODE)
+
 
     review = re.sub("  +",' ',review) #Remove Multiple Spaces
     # review = re.sub("[^ -~]+|;|\)|#|\*",'',review) #Remove not printable characters
+    review = emoji_regex.sub("",review) #Remove any emojis
     review = re.sub("&", 'and',review)  # replace & with and
     review = re.sub("(!|\?)", '.', review) #Replace all ! and ? to .
     review = re.sub("(?<=[a-z])\.(?=[A-Z][a-z])|  +", '. ', review) #Add one space after a . at the end of a sentacne

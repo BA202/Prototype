@@ -4,6 +4,7 @@ from flask import request
 import DBInteraction
 import requests
 import json
+import time
 from langid.langid import LanguageIdentifier, model
 from Logger import Logger
 from Logger import LogSource
@@ -92,8 +93,20 @@ def addNewReview():
     data = request.get_json(silent=False)
     print(data)
     id =  DBInteraction.addNewReview(data['review'],data['setType'],data['source'],data['language'])[0][0]
-    response = requests.request("GET", url+"/?id="+str(id)+f"&lan='{data['language']}'")
+    response = requests.request("GET", url+"/?id="+str(id)+f"&lan={data['language']}")
     print(response.text)
+    time.sleep(3)
+    return getRawReviews() 
+
+@app.route('/addNewReviewWithDate',methods = ['POST'])
+def addNewReviewWithDate():
+    newLog(LogType.Informational,LogSource.Backend ,f"{str(request.url)}\n{str(request.headers)}")
+    data = request.get_json(silent=False)
+    print(data)
+    id =  DBInteraction.addNewReviewWithDate(data['creationDate'],data['review'],data['setType'],data['source'],data['language'],data['hotel'])[0][0]
+    response = requests.request("GET", url+"/?id="+str(id)+f"&lan={data['language']}")
+    print(response.text)
+    time.sleep(3)
     return getRawReviews() 
 
 @app.route('/addClassifiedReview',methods = ['POST'])

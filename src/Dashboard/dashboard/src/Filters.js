@@ -26,6 +26,9 @@ class Filters extends React.Component {
         },
         "Source": {
         
+        },
+        "Hotel": {
+        
         }
       },
       dateExpanded: false,
@@ -49,6 +52,9 @@ class Filters extends React.Component {
         ],
         "Source": [
 
+        ],
+        "Hotel": [
+        
         ]
       }
 
@@ -114,7 +120,16 @@ class Filters extends React.Component {
     }
 
     let hotelChoises = []
-
+    for (let i in this.state.data.Hotel) {
+      hotelChoises.push(
+        <tr>
+          <th><label class="container">{this.state.data.Hotel[i]}
+            <input type="checkbox" onChange={this.checkBoxChanged} id={this.state.data.Hotel[i]} className="Hotel" checked={this.state.filterState.Hotel[this.state.data.Hotel[i]]}></input>
+            <span class="checkmark"></span>
+          </label></th>
+        </tr>
+      );
+    }
 
     return (
       <div className="Filters">

@@ -170,11 +170,12 @@ def createDataView(dbData):
             "NumberOfSentences": numberOfResults
         },
         "SearchBox":{
-            "Date": [2021,2023],
+            "Date": [2017,2023],
             "Category": ["Location","Room","Food","Staff","ReasonForStay", "GeneralUtility","HotelOrganisation"],
             "Score": ["Positive","Negative","Neutral"],
             "Language": ["German","English"],
-            "Source": ["Trivago","Google","Online"]
+            "Source": ["Booking","TripAdvisor","Google","Trivago","Expedia"],
+            "Hotel": ["Arosa Kulm Hotel & Alpin Spa","Turmhotel Victoria Davos"]
         },
         "Overview":{
              "Total Results": [numberOfResults,{

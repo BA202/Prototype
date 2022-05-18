@@ -58,8 +58,11 @@ def getAllClassifiedResults():
 def addNewLog(type,source,message):
     return sqlSet(f"INSERT INTO `HotelReviews`. `Logs`(`type`, `source`, `message`) VALUES('{type}', '{source}', '{message}');")
 
-def addNewReview(review,setType,source,language):
-    return sqlSet(f"INSERT INTO `HotelReviews`. `RawReviews`(`review`, `setType`, `source`, `language`) VALUES('{review}', '{setType}', '{source}', '{language}');")
+def addNewReview(review,setType,source,language,hotel="None"):
+    return sqlSet(f"INSERT INTO `HotelReviews`. `RawReviews`(`review`, `setType`, `source`, `language`,`hotel`) VALUES('{review}', '{setType}', '{source}', '{language}', '{hotel}');")
+
+def addNewReviewWithDate(date,review,setType,source,language,hotel):
+    return sqlSet(f"INSERT INTO `HotelReviews`. `RawReviews`(`creationDate`,`review`, `setType`, `source`, `language`,`hotel`) VALUES('{date}','{review}', '{setType}', '{source}', '{language}', '{hotel}');")
 
 def getReviewById(id):
     return sqlQuery(f"SELECT review FROM HotelReviews.RawReviews WHERE ID IN ({id});")[0][0]
@@ -164,6 +167,8 @@ def getFilteredData(filters):
         {createMultipleFIltersStatements(filters['ContentType'],"CR.contentType")}
         {createMultipleFIltersStatements(filters['Language'],"RR.language")}
         {createMultipleFIltersStatements(filters['Source'],"RR.source")}
+        {createMultipleFIltersStatements(filters['Hotel'],"RR.hotel")}
+        {createMultipleFIltersStatements(['UserInput'],"RR.setType")}
     order by RR.id, RS.id;"""
     res = sqlQuery(sqlRequest)
     return toJson(res,False)

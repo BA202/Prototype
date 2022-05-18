@@ -33,7 +33,8 @@ class Logger:
             "source": source,
             "message": message
         })
-        response = requests.request("POST", self.__url, headers=self.__headers, data=payload)
+        #response = requests.request("POST", self.__url, headers=self.__headers, data=payload)
+        return True
         if response.status_code == 200:
             return True
         else:
