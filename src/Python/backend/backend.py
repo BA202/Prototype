@@ -25,7 +25,7 @@ def detectLanguage():
     data = request.get_json(silent=False)
 
     identifier = LanguageIdentifier.from_modelstring(model, norm_probs=True)
-    language = identifier.classify(data["Sen"])
+    language = identifier.classify(data["sen"])
     lan = "eng"
     if language[0] == "de":
         lan =  'deu'
@@ -42,10 +42,10 @@ def getRawReviews():
     ret.headers['Content-Type'] = 'application/json'
     return ret
 
-@app.route('/getReviewsAsSentances')
-def getReviewsAsSentances():
+@app.route('/getReviewsAsSentences')
+def getReviewsAsSentences():
     newLog(LogType.Informational,LogSource.Backend ,f"{str(request.url)}\n{str(request.headers)}")
-    ret = flask.Response(DBInteraction.getReviewsAsSentances())
+    ret = flask.Response(DBInteraction.getReviewsAsSentences())
     ret.headers['Content-Type'] = 'application/json'
     return ret
 

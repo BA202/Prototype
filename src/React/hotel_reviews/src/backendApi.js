@@ -27,7 +27,7 @@ class backendApi extends basicRestRequests
     {
       let url = "http://"+ window.location.hostname + this.#baseUrl + "detectLanguage";
       console.log(url);
-      let json = {"Sen": str};
+      let json = {"sen": str};
       let result = await this.PostRequest(url,json);
       let shortLan = JSON.parse(result.response)["language"];
       if(shortLan === "deu"){

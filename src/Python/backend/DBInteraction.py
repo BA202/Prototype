@@ -45,7 +45,7 @@ def getRawReviews():
 def getReviewExamples():
     return json.dumps(sqlQuery("SELECT id,review FROM HotelReviews.ExampleReviews;"))
 
-def getReviewsAsSentances():
+def getReviewsAsSentences():
     return json.dumps(sqlQuery("SELECT sentence FROM HotelReviews.ReviewSentences;"))
 
 def getAllClassifiedResults():
