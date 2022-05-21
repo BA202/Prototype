@@ -22,14 +22,14 @@ def classification(str,lan):
     if lan == None:
         raise ValueError
     if lan == "English":
-        predCat, CatConf = classificationEnglish.classify(str)
+        res = classificationEnglish.classify(str)
         predScore, confidence = scoreClassifierEnglish.classify(str)
     else:
         print("German Classification")
-        predCat, CatConf = classificationGerman.classify(str)
+        res = classificationGerman.classify(str)
         predScore, confidence = scoreClassifierGerman.classify(str)
 
-    return [[predScore,round(confidence, 4),predCat,round(CatConf, 4),"Review", 1]]
+    return [[predScore,round(confidence, 4),sample[0],sample[1],"Review", 1] for sample in res]
 
 def Classifying_thread(id,lan):
     print(lan)
@@ -59,18 +59,20 @@ def classify():
     for i,sen in enumerate(data):
         print(sen)
         response = classification(sen,lan)
+        res = {}
+        for m,el in enumerate(response):
+            res[str(m+1)] = { 
+            "Score": el[0],
+            "ScoreConfidence": el[1],
+            "Classification": el[2],
+            "ClassificationConfidence": el[3],
+            "ContentType": el[4],
+            "ContentTypeConfidence": el[5]
+            }
+
         full_response[str(i)] = {
             "Sentence": sen,
-                "Classifications": {
-                    "1":{
-                        "Score": response[0][0],
-                        "ScoreConfidence": response[0][1],
-                        "Classification": response[0][2],
-                        "ClassificationConfidence": response[0][3],
-                        "ContentType": response[0][4],
-                        "ContentTypeConfidence": response[0][5]
-                        }
-                }
+                "Classifications": res
         }    
     ret = flask.Response(json.dumps(full_response))
     ret.headers['Content-Type'] = 'application/json'
@@ -78,9 +80,9 @@ def classify():
 
 if __name__ == '__main__':
     logger = Logger()
-    scoreClassifierGerman = PipelineInterface("Tobias/bert-base-german-cased_German_Hotel_sentiment")
-    scoreClassifierEnglish = PipelineInterface("Tobias/bert-base-uncased_English_Hotel_sentiment")
-    classificationGerman = PipelineInterface("Tobias/bert-base-german-cased_German_Hotel_classification")
-    classificationEnglish = PipelineInterface("Tobias/bert-base-uncased_English_Hotel_classification")
+    scoreClassifierGerman = PipelineInterface("Tobias/bert-base-german-cased_German_Hotel_sentiment",isMultiLabel=False)
+    scoreClassifierEnglish = PipelineInterface("Tobias/bert-base-uncased_English_Hotel_sentiment",isMultiLabel=False)
+    classificationGerman = PipelineInterface("Tobias/bert-base-uncased_German_MultiLable_classification",isMultiLabel=True)
+    classificationEnglish = PipelineInterface("Tobias/bert-base-uncased_English_MultiLable_classification",isMultiLabel=True)
 
     app.run(host='0.0.0.0', port=5001)
